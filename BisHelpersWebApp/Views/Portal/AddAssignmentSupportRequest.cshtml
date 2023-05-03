@@ -1,0 +1,287 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+@using BisHelpersWebApp.Models
+
+
+@inject UserManager<Student> UserManager
+
+@model AssignmentSupport
+
+
+
+@{
+    
+    IEnumerable<AssignmentSupport> AsList = ViewBag.Message;
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Analysis</title>
+    <link rel="stylesheet" href="~/css/assignmentForm.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+        <div class="image">
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+            {
+                <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+            }
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+            {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+            }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="active">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- Start content -->
+    <div class="container">
+        <div class="headGpa">
+            <h3>Add Assignment Support</h3>
+        </div>
+        <form method="post">
+            <div class="box">
+                <div class="input">
+                    <div asp-validation-summary="All" class="text-danger"></div><br />
+                    <div class="first">
+                        <label>Your Name</label>
+                        <input asp-for="AuthorName" required />
+                    </div>
+                    <div class="second">
+                        <label>Subject Name</label>
+                        <select
+                                id="subjectsName"
+                                onchange="detectChange(this)"
+                                required
+                                asp-for="SubjectName">
+                            <option value="Auditing">Auditing</option>
+                            <option value="Cost Accounting">Cost Accounting</option>
+                            <option value="DataBase">DataBase</option>
+                            <option value="E-Commerce">E-Commerce</option>
+                            <option value="Communication">Communication</option>
+                            <option value="HRM">HRM</option>
+                        </select>
+                    </div>
+                    <div class="third">
+                        <label>Professor</label>
+                        <select asp-for="ProfName" id="professorName" required></select>
+                    </div>
+                    <div class="fourth">
+                        <label>Description</label>
+                        <input asp-for="UrlDescription" type="text" required />
+                        <input asp-for="StudentId" value="non" type="text" hidden />
+                    </div>
+                    <div class="fifth">
+                        <label>Type Of URL</label>
+                        <select asp-for="UrlType" id="typeOfUrl" required>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Telegram">Telegram</option>
+                            <option value="Google Drive">Google Drive</option>
+                            <option value="Google Form">Google Form</option>
+                            <option value="Youtube">Youtube</option>
+                            <option value="Else">Else</option>
+                        </select>
+                    </div>
+                    <div class="fifth">
+                        <label>URL</label>
+                        <input asp-for="UrlContent" type="url" required />
+                    </div>
+                    <div class="submit">
+                        <button type="submit">Create</button>
+
+                    </div >
+
+                </div>
+
+            </div>
+        </form>
+        
+        <br>
+        <br>
+        <div class="line"></div>
+        <br>
+        <div class="desc">
+            <h3>
+                Your Latest Requests:
+            </h3>
+            <br>
+        </div>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Author Name</td>
+                        <td>Subject Name</td>
+                        <td>Professor</td>
+                        <td class="Description">Description</td>
+                        <td class="url">Url</td>
+                        <td class="url">Request Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (!AsList.Any())
+                        {
+                            <tr>
+                                <td colspan="6">No Requests Yet ... You Can Add One Now!</td>
+
+                            </tr>
+                        }
+
+                        foreach (var obj in AsList)
+                        {
+
+                            <tr>
+                                <td>@obj.AuthorName</td>
+                                <td>@obj.SubjectName</td>
+                                <td>@obj.ProfName</td>
+                                <td class="desc">@obj.UrlDescription</td>
+                                <td class="img">
+                                    @{
+                                        if (obj.UrlType == "Facebook")
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/facebook-svgrepo-com.svg" alt="" />
+                                            </a>
+                                        }
+                                        else if (obj.UrlType == "Telegram")
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/telegram-svgrepo-com.svg" alt="" />
+                                            </a>
+                                        }
+                                        else if (obj.UrlType == "Google Drive")
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/google-drive-social-media-svgrepo-com.svg" alt="" />
+                                            </a>
+                                        }
+                                        else if (obj.UrlType == "Google Form")
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/forms.png" alt="" />
+                                            </a>
+                                        }
+                                        else if (obj.UrlType == "Youtube")
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/youtube-svgrepo-com.svg" alt="" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@obj.UrlContent" target="_blank">
+                                                <img src="~/img/internet-www-svgrepo-com.svg" alt="" />
+                                            </a>
+                                        }
+
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        if (obj.RequestStat == 2)
+                                        {
+                                            <p class="rej">Rejected</p>
+
+                                        }
+                                        else if (obj.RequestStat == 1)
+                                        {
+                                            <p>Approved</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="inprogress">in progress</p>
+                                        }
+                                    }
+
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="boxWarning">
+            <div class="icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <p class="warning">
+                ATTENTION: If You need to know reasons of The rejected requests, please <a href="https://www.instagram.com/bis_helpers/" target="_blank">Contact US</a>
+            </p>
+        </div>
+    </div>
+    <script src="~/js/selection.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,120 @@
+﻿@page
+@model RegisterModel
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="~/css/masterSignup.css" asp-append-version="true">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400
+    ;0,600;0,800;1,200;1,300;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section>
+        <div class="imgpx">
+            <!-- <img src="css2/1.png"> -->
+            <div class="context">
+
+            </div>
+
+
+            <div class="area">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class="contentpx">
+            <div class="formpx">
+                <div class="signup">
+                    <h2> Sign Up</h2>
+                    <a class="SignIn" asp-area="Identity" asp-page="/Account/Signin">Sign in</a>
+                </div>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="inputpx">
+                        <label>Full Name</label>
+                        <input asp-for="Input.StudentName" class="form-control" autocomplete="username" aria-required="true">
+                        <span asp-validation-for="Input.StudentName" class="text-danger"></span>
+
+                    </div>
+                    <div class="inputpx">
+                        <label>College ID</label>
+                        <input asp-for="Input.StudentCollageId" class="form-control" autocomplete="username" aria-required="true" >
+                        <span asp-validation-for="Input.StudentCollageId" class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="mixpx">
+
+                        <select asp-for="Input.Level" autocomplete="username" aria-required="true">
+                            
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                        </select>
+
+                        <select asp-for="Input.GenderId" autocomplete="username" aria-required="true">
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </div>
+
+
+                    <div class="inputpx">
+                        <label asp-for="Input.Email">Email Address</label>
+                        <input asp-for="Input.Email" autocomplete="username" aria-required="true">                       
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>                       
+                    </div>
+                    <div class="inputpx">
+                        <label>Password</label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true">
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                    </div>
+                    <div class="inputpx">
+                        <label> Confirm Password</label>
+                        <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true">
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                    </div>
+                    <div class="inputpx">
+                        <input id="registerSubmit" type="submit" value="Sign Up ">
+                    </div>
+                    <div class="inputpx">
+                        <p>You have an account? <a asp-area="Identity" asp-page="/Account/Signin">Sign In</a></p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </section>
+</body>
+</html>

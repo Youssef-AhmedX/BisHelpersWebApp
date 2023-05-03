@@ -1,0 +1,331 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
+
+
+@{
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - Student Tools</title>
+    <link rel="stylesheet" href="~/css/studentTools.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+                <div class="image">
+        @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+        {
+        <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+        }
+        @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+        {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+        }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="active"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- Start content -->
+    <div class="container">
+        <div class="headStudent">
+            <h3>Student Tools</h3>
+        </div>
+        <div class="desc">
+            <p>
+                <span>What is Student Tools:</span> <br />
+                Student tools are gathered together by our team to help you access tools faster and make your life easy by providing
+                collection of Amazing tools<br />like (PDF converter, remove image background, etc...).
+            </p>
+        </div>
+        <div class="line"></div>
+        <div class="studentContent">
+            <a href="https://www.remove.bg/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-regular fa-images"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Removebg</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Remove Image Background 100% Automatically and Free</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.lucidchart.com/pages/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-code-pull-request"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Lucidchart</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Lucidchart is the intelligent diagramming application.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.freepdfconvert.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div class="title">
+                        <h4>
+                            PDF Converter
+                        </h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Easily convert to and from PDF in seconds.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.grammarly.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Grammarly</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Compose bold, clear, mistake-free writing</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://placeit.net/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-icons"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Placeit</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>The easiest way to create professional designs for free!</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.animaker.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Animaker</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>
+                            A platform create Animation
+                            videos for every moment of our life.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://cleanup.pictures/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-panorama"></i>
+                    </div>
+                    <div class="title">
+                        <h4>cleanup pictures</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Remove any unwanted object from your pictures in seconds.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.freeconvert.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-file-export"></i>
+                    </div>
+                    <div class="title">
+                        <h4>File Convert</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Easily convert files from one format to another, online.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://privnote.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Privnote</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>send a note that self-destructs after it's read to send sensitive Info.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://ninite.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Ninite</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Install and Update All Your Programs at Once No toolbars.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.eatthismuch.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-burger"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Eat This Much</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>creates personalized meal plans based on your food preferences.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.pdfescape.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </div>
+                    <div class="title">
+                        <h4>PDF Escape</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>PDF editor lets you easily tweak a PDF without any extra software.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://wetransfer.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Wetransfer</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Whether you’re sending big files for fun or delivering work for clients.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://codeforces.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <div class="title">
+                        <h4>Codeforces</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Let You Solve Alot Of Programming Problems To Improve Your Skills.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.check-plagiarism.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-font"></i>
+                    </div>
+                    <div class="title">
+                        <h4>check plagiarism</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>plagiarism checker is widely used to check plagiarism online.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://ytplaylist-len.herokuapp.com/" target="_blank">
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <div class="title">
+                        <h4>playlist-len</h4>
+                    </div>
+                    <div class="cardDesc">
+                        <p>Find the length of any YouTube playlist.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+

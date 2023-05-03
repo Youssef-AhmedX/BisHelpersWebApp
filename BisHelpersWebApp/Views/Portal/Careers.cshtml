@@ -1,0 +1,410 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
+
+
+@{
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - Careers</title>
+    <link rel="stylesheet" href="~/css/careers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+                <div class="image">
+        @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+        {
+        <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+        }
+        @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+        {
+        <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+        }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="active"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- Start content -->
+    <div class="container">
+        <div class="headcareer">
+            <h3>Careers</h3>
+        </div>
+        <div class="desc">
+            <p>
+                <span>What is Careers?</span> <br />
+                IF Your Future Career Not clear<br />Our careers feature provide alot of career paths to know about more than one career and choose which
+                satisfies your passion.
+            </p>
+        </div>
+        <div class="line"></div>
+        <div class="careers-content">
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-code"></i>
+                    <h4>Front-End<span>(HTML, CSS, JS)</span></h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Front-end web development is the development of the graphical user interface of a website, through the use of HTML, CSS, and JavaScript, so that users can view and interact with that website.
+                    </p>
+                    <a href="#f1" id="front-end">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                    <a href="#one" id="one">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-gears"></i>
+                    <h4>Back-End <span>(ASP.NET Core)</span></h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        backend works with the intermediate representation to produce code in a computer output language by ASP.NET (a popular framework for building web apps on the .NET platform).
+                    </p>
+                    <a href="#b1" id="back-end-one">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                    <a href="#two" id="two">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-gears"></i>
+                    <h4>Back-End <span>(PHP)</span></h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        backend works with the intermediate representation to produce code in a computer output language by PHP (A popular general-purpose scripting language that is suited to web development).
+                    </p>
+                    <a href="#b2" id="back-end-two">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                    <a href="#three" id="three">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Start Front -->
+        <div class="front" id="front-end-one">
+            <div class="line"></div>
+            <div class="careerCard">
+                <div class="careerTitle">
+                    <h5>Front-End</h5>
+                </div>
+                <div class="box one">
+                    <div class="num">
+                        <span>1</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>HTML5</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=pQN-pnXPaVg" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=qz0aGYrrlhU" target="_blank">Programming With Mosh</a>
+                            <a href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAw_t_XWUFbBX-c9MafPk9ji" target="_blank">ELZERO Web School</a>
+                            <a href="https://www.w3schools.com/html/" target="_blank">W3Schools</a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box two">
+                    <div class="num">
+                        <span>2</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>CSS3</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAzjsz06gkzlSrlev53MGIKe" target="_blank">ELZERO Web School</a>
+                            <a href="https://www.youtube.com/watch?v=1Rs2ND1ryYc" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=OXGznpKZ_sA" target="_blank">Free Code Camp</a>
+                            <a href="https://www.w3schools.com/css/default.asp" target="_blank">W3Schools</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box three">
+                    <div class="num">
+                        <span>3</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>JS</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAx3kiplQR_oeDqLDBUDYwVv" target="_blank">ELZERO Web School</a>
+                            <a href="https://www.youtube.com/watch?v=jS4aFq5-91M" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=PkZNo7MFNFg" target="_blank">Free Code Camp</a>
+                            <a href="https://www.w3schools.com/js/default.asp" target="_blank">W3Schools</a>
+                            <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk" target="_blank">Programming With Mosh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box four">
+                    <div class="num">
+                        <span>4</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Bootstrap</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=-qfEOE4vtxE" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=eow125xV5-c" target="_blank">Raddy</a>
+                            <a href="https://www.w3schools.com/bootstrap/bootstrap_ver.asp" target="_blank">W3Schools</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="num">
+                        <span>5</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Angular.JS</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=k5E2AVpwsko" target="_blank">Programming With Mosh</a>
+                            <a href="https://www.youtube.com/playlist?list=PL6n9fhu94yhWKHkcL7RJmmXyxkuFB3KSl" target="_blank">
+                                kudvenkat
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start Back-End -->
+        <div class="backTwo" id="back-two">
+            <div class="line"></div>
+            <div class="careerCard">
+                <div class="careerTitle">
+                    <h5>Back-End <span>(ASP.NET Core)</span></h5>
+                </div>
+                <div class="box one">
+                    <div class="num">
+                        <span>1</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>C# & OOP</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=GhQdlIFylQ8" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=gfkTfcpWqAY" target="_blank">Programming With Mosh</a>
+                            <a href="https://www.youtube.com/playlist?list=PL4cyC4G0M1RQh_Sjm9xe6e4MzncS8zvyX" target="_blank">
+                                kudvenkat.Arabic
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box three">
+                    <div class="num">
+                        <span>2</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>SQL Server</p>
+                        <div class="links">
+                            <a href="https://bit.ly/3bNYrSv" target="_blank">
+                                kudvenkat.Arabic
+                            </a>
+                            <a href="https://bit.ly/39HedM7" target="_blank">
+                                kudvenkat
+                            </a>
+                            <a href="https://bit.ly/3syxt7g" target="_blank">
+                                Ahmed mohamdy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box four">
+                    <div class="num">
+                        <span>3</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Entity FrameWork</p>
+                        <div class="links">
+                            <a href="https://bit.ly/3szruix" target="_blank">
+                                kudvenkat.Arabic
+                            </a>
+                            <a href="https://bit.ly/3stIhnb" target="_blank">
+                                kudvenkat
+                            </a>
+                            <a href="https://bit.ly/35M0W3B" target="_blank">
+                                GoSharp
+                            </a>
+                            <a href="https://bit.ly/39KQBq9" target="_blank">
+                                Programming With Mosh
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box five">
+                    <div class="num">
+                        <span>4</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Asp.Net Core (MVC)</p>
+                        <div class="links">
+                            <a href="https://bit.ly/39ECFO9" target="_blank">
+                                kudvenkat
+                            </a>
+                            <a href="https://bit.ly/3qud1Cx" target="_blank">
+                                kudvenkat.Arabic
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=hZ1DASYd9rk" target="_blank">
+                                Free Code Camp
+                            </a>
+                            <a href="https://bit.ly/3oUeAcI" target="_blank">
+                                khalid elsadany
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="num">
+                        <span>5</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Asp.Net Core (Web API)</p>
+                        <div class="links">
+
+                            <a href="https://bit.ly/38Qsdnw" target="_blank">
+                                kudvenkat
+                            </a>
+                            <a href="https://bit.ly/3bLQblJ" target="_blank">
+                                kudvenkat.Arabic
+                            </a>
+                            <a href="https://bit.ly/3swTbIJ" target="_blank">
+                                khalid elsadany
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Back-End -->
+        <div class="backThree" id="back-three">
+            <div class="line"></div>
+            <div class="careerCard">
+                <div class="careerTitle">
+                    <h5>Back-End <span>(PHP)</span></h5>
+                </div>
+                <div class="box one">
+                    <div class="num">
+                        <span>1</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>PHP</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=OK_JCtrrv-c" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=2eebptXfEvw" target="_blank">
+                                Traversy Media
+                            </a>
+                            <a href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAy41u35AqJUrI-H83DObUDq" target="_blank">ELZERO Web School</a>
+                            <a href="https://www.w3schools.com/php/default.asp" target="_blank">W3Schools</a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box two">
+                    <div class="num">
+                        <span>2</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>MySQL</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=HXV3zeQKqGY" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=ER8oKX5myE0" target="_blank">Free Code Camp</a>
+                            <a href="https://www.youtube.com/watch?v=7S_tz1z_5bA" target="_blank">Programming With Mosh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="num">
+                        <span>3</span>
+                    </div>
+                    <div class="boxContent">
+                        <p>Laravel</p>
+                        <div class="links">
+                            <a href="https://www.youtube.com/watch?v=ImtZ5yENzgE" target="_blank">Free Code Camp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
+

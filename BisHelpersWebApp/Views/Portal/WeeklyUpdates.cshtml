@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject UserManager<Student> UserManager
+
+
+@{
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Analysis</title>
+    <link rel="stylesheet" href="~/css/gpa.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+        <div class="image">
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+            {
+                <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+            }
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+            {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+            }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="active">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- Start content -->
+    <div class="container">
+        <div class="headGpa">
+            <h3>Weekly Updates</h3>
+        </div>
+        <div class="desc">
+            <p>
+                <span>What is Weekly Updates?</span><br />
+                Weekly Updates Feature Genrates Reports based on doctors you registered with 
+                and describe what you have to do this week and prepare for the next weeks to achieve High Grades.
+            </p>
+        </div>
+
+        <div class="desc">
+            <p>
+                <span>Weekly Updates Details:</span><br />
+                Each week has its own tab below, that can be expanded upon and you can see that week's contents.
+                After you see the available reports for that week, you can click on any subject you want and it will show you everything related to that subject, like upcoming exams/assignments or what was taken that week.
+                This tool is to help you keep up to date with your professors and what they are giving in each lecture, week by week
+            </p>
+        </div>
+        <div class="ImgDetails">
+            <img src="~/img/DoctorsWeekly.jpg" asp-append-version="true" />
+        </div>
+
+
+        <!-- End  Content-->
+        
+
+        <br />
+
+        @if (UserManager.GetUserAsync(User).Result.WeeklyPaymentStat != 1 )
+        {
+            <div class="Go">
+                <a asp-controller="Portal" asp-action="WeeklyUpdatesPayment">Join Weekly Updates</a>
+            </div>
+        }
+
+
+    </div>
+</body>
+</html>
+
+

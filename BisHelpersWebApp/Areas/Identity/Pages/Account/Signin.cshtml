@@ -1,0 +1,90 @@
+﻿@page
+@model LoginModel
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <!--css file-->
+    <link rel="stylesheet" href="~/css/masterLogin.css" asp-append-version="true">
+    <!--randre all element normally-->
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <!--google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400
+                ;0,600;0,800;1,200;1,300;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section>
+        <div class="imgpx">
+            <!-- <img src="css/1.png"> -->
+            <div class="context">
+
+            </div>
+
+
+            <div class="area">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class=contentpx>
+            <div class="formpx">
+                <h2>Sign in</h2>
+
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="inputpx">
+                        <label>Email</label>
+                        <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="email">
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+                    </div>
+                    <div class="inputpx">
+                        <label>Password</label>
+                        <input asp-for="Input.Password" autocomplete="current-password" aria-required="true" type="password">
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        
+                    </div>
+                    <!-- <div class="remember">
+                        <input type="checkbox">
+                        <label>Remember me?</label>
+                    </div> -->
+
+                    <div class="inputpx">
+                        <input type="submit" id="login-submit" value="Sign In">
+                    </div>
+                    <div class="inputpx">
+                        <p>
+                            Forgot your password? <a id="forgot-password" asp-controller="LandingPage" asp-action="ContactUs">Contact US</a>
+                        </p>
+                        <br />
+                        <p>
+                            Don't have an account? <a asp-area="Identity" asp-page="/Account/Signup">Sign Up</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

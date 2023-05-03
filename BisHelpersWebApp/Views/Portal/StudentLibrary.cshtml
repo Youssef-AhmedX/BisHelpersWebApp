@@ -1,0 +1,1867 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject UserManager<Student> UserManager
+
+@model MultipleViewModel
+
+@{
+
+    Model.objAssignmentSupportList.OrderBy(S => S.PublishedDate).ThenBy(S => S.ProfName); 
+    Model.objSQsupportList.OrderBy(S => S.PublishedDate).ThenBy(S => S.SubjectName);
+    var AssignmentSupportApproved = Model.objAssignmentSupportList.Where(O => O.RequestStat == 1).Reverse();
+    var SQsupportApproved = Model.objSQsupportList.Where(O => O.RequestStat == 1).Reverse();
+    
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Analysis</title>
+    <link rel="stylesheet" href="~/css/studentLibrary.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+        <div class="image">
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+            {
+                <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+            }
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+            {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+            }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="active">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- Start content -->
+    <div class="container">
+        <div class="libraryHead">
+            <h3>Student Library</h3>
+        </div>
+        <div class="desc">
+            <p>
+                <span>What is Student Library?</span> <br />
+                    It's the place where you'll find everything you need by using three main features ( assignment support, summaries and quizzes and lectures and sections guide ) 
+                    that will help to succeed.
+            </p>
+        </div>
+        <div class="library-content">
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-book"></i>
+                    <h4>Assignments Support</h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Upload the answers to assignments that are needed soon or find the content that is uploaded by others
+                        to help you to finish your assignments by the deadline.
+                    </p>
+                    <div class="libraryLinks">
+                        <a asp-controller="Portal" asp-action="AddAssignmentSupportRequest">
+                            Add <i class="fa-solid fa-plus"></i>
+                        </a>
+                        <a href="#A1" id="Assignments">
+                            Go <i class="fa-solid fa-angles-right"></i>
+                        </a>
+                        <a href="#one" id="one">
+                            Go <i class="fa-solid fa-angles-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-file"></i>
+                    <h4>Summaries and Quizzes</h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Upload any summary or quiz that you created or find the content that is uploaded by others
+                        to help you to study easily and answer quizzes to achieve high grades.
+                    </p>
+                    <div class="libraryLinks">
+                        <a class="" asp-controller="Portal" asp-action="AddSqSupportRequest">
+                            Add <i class="fa-solid fa-plus"></i>
+                        </a>
+                        <a href="#S1" id="Summarizes">
+                            Go <i class="fa-solid fa-angles-right"></i>
+                        </a>
+                        <a href="#two" id="two">
+                            Go <i class="fa-solid fa-angles-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    <i class="fa-solid fa-person-chalkboard"></i>
+                    <h4>Lectures and Sections Guide</h4>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Where you can find all the codes for online lectures and sections,
+                        time of the lecture, professor name and hall numbers if you need to attend other classes or find your own class.
+                    </p>
+                    <a href="#b3" id="lectures">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                    <a href="#three" id="three" class="lec">
+                        Go <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Start AssignmentsSupport -->
+        <div class="AssignmentsSupport" id="AssignmentsAndSupport">
+            <div class="line"></div>
+            <div class="studentCard">
+                
+                <div class="search">
+                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="input">
+                        <input type="text"
+                               id="myInput"
+                               onkeyup="myFunction()"
+                               placeholder="Search for Doctor name.." />
+                    </div>
+                </div>
+                <div class="table">
+                    <table id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Uploaded By</th>
+                                <th>Subject Name</th>
+                                <th>Professor</th>
+                                <th class="Description">Description</th>
+                                <th class="url">Url</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+     
+                            @foreach (var obj in AssignmentSupportApproved)
+                            {
+                                <tr>
+
+                                    <td>@obj.AuthorName<span class="publishDate">@DateOnly.FromDateTime(obj.PublishedDate)</span></td>
+                                        <td>@obj.SubjectName</td>
+                                        <td>@obj.ProfName</td>
+                                        <td class="desc">
+                                            @obj.UrlDescription
+                                        </td>
+                                        <td class="img">
+                                            @{
+                                                if (obj.UrlType == "Facebook")
+                                                {
+                                                    <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/facebook-svgrepo-com.svg" alt="" />
+                                                    </a>
+                                                }
+                                                else if (obj.UrlType == "Telegram")
+                                                {
+                                                    <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/telegram-svgrepo-com.svg" alt="" />
+                                                    </a>                                            
+                                                }
+                                                else if (obj.UrlType == "Google Drive")
+                                                {
+                                                    <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/google-drive-social-media-svgrepo-com.svg" alt="" />
+                                                    </a>                                            
+                                                }
+                                                else if (obj.UrlType == "Google Form")
+                                                {
+                                                    <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/forms.png" alt="" />
+                                                    </a>                                            
+                                                }
+                                                else if (obj.UrlType == "Youtube")
+                                                {
+                                                    <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/youtube-svgrepo-com.svg" alt="" />
+                                                    </a>                                            
+                                                }
+                                                else
+                                                {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                        <img src="~/img/internet-www-svgrepo-com.svg" alt="" />
+                                                    </a>
+                                                }
+                                            
+                                            }
+                                        
+                                        </td>
+                                    </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End AssignmentsSupport -->
+        <!-- Start QuizzesAndsummarizes -->
+        <div class="QuizzesAndsummarizes" id="back-two">
+            <div class="line"></div>
+            <div class="studentCard">
+
+                <!--            -->
+                <div class="searchs">
+                    <div class="icons">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="inputs">
+                        <input autofocus
+                               type="text"
+                               id="myInputs"
+                               onkeyup="myFunctiontwo()"
+                               placeholder="Search for Subject.." />
+                    </div>
+                </div>
+                <div class="table">
+                    <table id="myTables">
+                        <thead>
+                            <tr>
+                                <th>Uploaded By</th>
+                                <th>Subject Name</th>
+                                <th class="Description">Description</th>
+                                <th class="url">Url</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var obj in SQsupportApproved)
+                            {
+                                <tr>
+                                    <td>@obj.AuthorName<span class="publishDate">@DateOnly.FromDateTime(obj.PublishedDate)</span></td>
+                                    <td>@obj.SubjectName</td>
+                                    <td class="desc">
+                                    @obj.UrlDescription
+                                    </td>
+                                    <td class="img">
+                                        @{
+                                        
+                                            if (obj.UrlType == "Facebook")
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img asp-append-version="true" src="~/img/facebook-svgrepo-com.svg" alt="" />
+                                                </a>
+                                            }
+                                            else if (obj.UrlType == "Telegram")
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img src="~/img/telegram-svgrepo-com.svg" asp-append-version="true" alt="" />
+                                                </a>
+                                            }
+                                            else if (obj.UrlType == "Google Drive")
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img src="~/img/google-drive-social-media-svgrepo-com.svg" asp-append-version="true" alt="" />
+                                                </a>
+                                            }
+                                            else if (obj.UrlType == "Google Form")
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img src="~/img/forms.png" asp-append-version="true" alt="" />
+                                                </a>
+                                            }
+                                            else if (obj.UrlType == "Youtube")
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img src="~/img/youtube-svgrepo-com.svg" asp-append-version="true" alt="" />
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@obj.UrlContent" target="_blank">
+                                                    <img src="~/img/internet-www-svgrepo-com.svg" asp-append-version="true" alt="" />
+                                                </a>
+                                            }
+
+                                        }
+
+                                    </td>
+                                </tr>
+                                    
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End QuizzesAndsummarizes -->
+        <!-- Start lecturesAndSectionsGuide -->
+        <div class="lecturesAndSectionsGuide" id="back-three">
+            <div class="line"></div>
+            <div class="studentCard">
+
+                  <div class="weekBoxs" id="weekBoxs">
+                        <div class="weekly" id="week">
+                          Auditing<i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Eman Saad</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>3</td>
+                                <td>60nstwy</td>
+                                <td>G_7</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>3</td>
+                                <td>cs654m1</td>
+                                <td>G_8</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>3</td>
+                                <td>4v8wt28</td>
+                                <td>G_9</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Hager Abdelrahman</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>23</td>
+                                <td>oigttkh</td>
+                                <td>G_10</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>23</td>
+                                <td>u9ocwfh</td>
+                                <td>G_11</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>23</td>
+                                <td>2dgj4py</td>
+                                <td>G_12</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Hanan Gaber</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>11</td>
+                                <td>k2magxg</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>10:30 - 1</td>
+                                <td>11</td>
+                                <td>mng8m0u</td>
+                                <td>G_2</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>1</td>
+                                <td>8qr3mbv</td>
+                                <td>G_5</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>1</td>
+                                <td>s161yhl</td>
+                                <td>G_6</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Mohamed Shaaban</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>8 - 10:30</td>
+                                <td>25</td>
+                                <td>xmqap7j</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 - 1</td>
+                                <td>25</td>
+                                <td>p7d62ll</td>
+                                <td>G_4</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 - 3:30</td>
+                                <td>16</td>
+                                <td>vzc0l4a</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>3:30 -6</td>
+                                <td>16</td>
+                                <td>qi3dn9b</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weekBoxs" id="weekBoxs">
+                    <div class="weekly" id="week">
+                      Cost-Accounting<i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Abdelrahman El-Faramawy</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>15</td>
+                                <td>8m21nu5</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 - 3:30</td>
+                                <td>16</td>
+                                <td>gfnxer9</td>
+                                <td>G_2</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>2</td>
+                                <td>pq1xmq9</td>
+                                <td>G_8</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>8 - 10:30</td>
+                                <td>23</td>
+                                <td>fxwtqah</td>
+                                <td>G_12</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>23</td>
+                                <td>8f7urga</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 - 3:30</td>
+                                <td>23</td>
+                                <td>oxa47pb</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Mohiy Samy</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>17</td>
+                                <td>y74q8bo</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>10:30 - 1</td>
+                                <td>17</td>
+                                <td>f1xth98</td>
+                                <td>G_4</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 - 3:30</td>
+                                <td>17</td>
+                                <td>zz4pitw</td>
+                                <td>G_5</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>8 - 10:30</td>
+                                <td>21</td>
+                                <td>chthqnc</td>
+                                <td>G_6</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 - 1</td>
+                                <td>21</td>
+                                <td>cq5kxcv</td>
+                                <td>G_7</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>25</td>
+                                <td>3uoxphz</td>
+                                <td>G_9</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>25</td>
+                                <td>n0ajv4m</td>
+                                <td>G_10</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>25</td>
+                                <td>pj3kino</td>
+                                <td>G_11</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weekBoxs" id="weekBoxs">
+                    <div class="weekly" id="week">
+                      E-Commerce<i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Ahmed Mounir</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>8 - 10:30</td>
+                                <td>15</td>
+                                <td>i2byn4q</td>
+                                <td>G_8</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 - 1</td>
+                                <td>15</td>
+                                <td>75hpjlf</td>
+                                <td>G_9</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>8 - 10:30</td>
+                                <td>14</td>
+                                <td>e4x2wuv</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>14</td>
+                                <td>v9kajeo</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Assam Shaaban</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>15</td>
+                                <td>z976jah</td>
+                                <td>G_10</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>15</td>
+                                <td>8a4bafi</td>
+                                <td>G_11</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>15</td>
+                                <td>x1neoon</td>
+                                <td>G_12</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Shereen Tayaa</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>8 - 10:30</td>
+                                <td>17</td>
+                                <td>c7fzjh1</td>
+                                <td>G_2</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>10:30 - 1</td>
+                                <td>17</td>
+                                <td>mslj5fv</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>1 - 3:30</td>
+                                <td>17</td>
+                                <td>odf4hsf</td>
+                                <td>G_4</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Yehia Helmy</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>10:30 - 1</td>
+                                <td>4</td>
+                                <td>urzg8wg</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>10:30 - 1</td>
+                                <td>11</td>
+                                <td>v760s3g</td>
+                                <td>G_5</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>1 - 3:30</td>
+                                <td>20</td>
+                                <td>z2lrod0</td>
+                                <td>G_6</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>3:30 - 6</td>
+                                <td>20</td>
+                                <td>t26syyq</td>
+                                <td>G_7</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Evana Remon / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>9 AM</td>
+                                <td>2</td>
+                                <td>3y0t80e</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>10:30 AM</td>
+                                <td>2</td>
+                                <td>ai3rjjb</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>1 PM</td>
+                                <td>2</td>
+                                <td>h1h6q51</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>2:30 PM</td>
+                                <td>2</td>
+                                <td>ahb7ijx</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Merna Ashraf / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>9 AM</td>
+                                <td>19</td>
+                                <td>ww7towv</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>10:30 AM</td>
+                                <td>19</td>
+                                <td>eenut0m</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 PM</td>
+                                <td>19</td>
+                                <td>0c9gi22</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>2:30 PM</td>
+                                <td>19</td>
+                                <td>p887fzq</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Menna Ibrahim / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 PM</td>
+                                <td>11</td>
+                                <td>z2ds8cv</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>2:30 PM</td>
+                                <td>11</td>
+                                <td>j9oz97w</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Wadaa Azoz / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>9 AM</td>
+                                <td>18</td>
+                                <td>0tx8d6x</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 AM</td>
+                                <td>18</td>
+                                <td>v5mg73m</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>1 PM</td>
+                                <td>18</td>
+                                <td>sybqk1t</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>2:30 PM</td>
+                                <td>18</td>
+                                <td>qoh27fw</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>9 AM</td>
+                                <td>7</td>
+                                <td>otw7t3w</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 AM</td>
+                                <td>7</td>
+                                <td>tiu83zl</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 PM</td>
+                                <td>7</td>
+                                <td>toezc68</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>2:30 PM</td>
+                                <td>7</td>
+                                <td>h64xflt</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Thanaa Mohamed / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>9 PM</td>
+                                <td>19</td>
+                                <td>mabk40j</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 PM</td>
+                                <td>19</td>
+                                <td>ta9fo6h</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weekBoxs" id="weekBoxs">
+                    <div class="weekly" id="week">
+                      DataBase<i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Ahmed Abdelwahab</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>8 - 10:30</td>
+                                <td>13</td>
+                                <td>mvg31no</td>
+                                <td>G_12</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>13</td>
+                                <td>g3dvixb</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 - 3:30</td>
+                                <td>13</td>
+                                <td>8sw6d82</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Ahmed Elsadawy</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>14</td>
+                                <td>qx0glne</td>
+                                <td>G_6</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>14</td>
+                                <td>l9h0630</td>
+                                <td>G_7</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Fahd Elshreef</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>13</td>
+                                <td>8u054p7</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>13</td>
+                                <td>jbr2ko9</td>
+                                <td>G_4</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>3:30 - 6</td>
+                                <td>13</td>
+                                <td>hr3kb3k</td>
+                                <td>G_5</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>5</td>
+                                <td>7qtsbh7</td>
+                                <td>G_11</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Mohamed Hassan</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>8 - 10:30</td>
+                                <td>16</td>
+                                <td>0tijck0</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>8 - 10:30</td>
+                                <td>2</td>
+                                <td>3vnry50</td>
+                                <td>G_8</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>2</td>
+                                <td>nfinah6</td>
+                                <td>G_9</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 - 3:30</td>
+                                <td>2</td>
+                                <td>tfy446o</td>
+                                <td>G_10</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Assam Shaaban</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>25</td>
+                                <td>ddphygd</td>
+                                <td>G_2</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Gehad Magdy / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 PM</td>
+                                <td>18</td>
+                                <td>o3tzn3s</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>2:30 PM</td>
+                                <td>18</td>
+                                <td>zpvtjgo</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 AM</td>
+                                <td>19</td>
+                                <td>0jet7ri</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 PM</td>
+                                <td>19</td>
+                                <td>0sfs9w4</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Menna Mamdouh / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>9 PM</td>
+                                <td>3</td>
+                                <td>z51nvg7</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>10:30 AM</td>
+                                <td>3</td>
+                                <td>ci65yb9</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>1 PM</td>
+                                <td>3</td>
+                                <td>y5cg24c</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>2:30 PM</td>
+                                <td>3</td>
+                                <td>30ce65l</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>9 PM</td>
+                                <td>12</td>
+                                <td>vrxg3q2</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 AM</td>
+                                <td>12</td>
+                                <td>qphrwij</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>1 PM</td>
+                                <td>12</td>
+                                <td>aka8hfw</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>2:30 PM</td>
+                                <td>12</td>
+                                <td>4a6p9h5</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Soha Ahmed / Sections</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Lab</td>
+                                <td>Code</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>9 PM</td>
+                                <td>19</td>
+                                <td>kvwgp2v</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>10:30 AM</td>
+                                <td>19</td>
+                                <td>mhlmo8l</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>1 PM</td>
+                                <td>19</td>
+                                <td>fksnbwe</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>2:30 PM</td>
+                                <td>19</td>
+                                <td>3u19d85</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>9 PM</td>
+                                <td>11</td>
+                                <td>puu0hdf</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 AM</td>
+                                <td>11</td>
+                                <td>m5vpf7i</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 PM</td>
+                                <td>3</td>
+                                <td>vy8j2bo</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>2:30 PM</td>
+                                <td>3</td>
+                                <td>1s30kln</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weekBoxs" id="weekBoxs">
+                    <div class="weekly" id="week">
+                      HRM <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Marwa Mansoor</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>8 - 10:30</td>
+                                <td>20</td>
+                                <td>8qsdgoa</td>
+                                <td>G_9</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 - 1</td>
+                                <td>20</td>
+                                <td>xqi813g</td>
+                                <td>G_10</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>1 - 3:30</td>
+                                <td>20</td>
+                                <td>1jw3ikn</td>
+                                <td>G_11</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Nehal Allam</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>20</td>
+                                <td>acgyybv</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>10:30 - 1</td>
+                                <td>20</td>
+                                <td>txjusoy</td>
+                                <td>G_2</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>1 - 3:30</td>
+                                <td>20</td>
+                                <td>9gbu1zc</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>8 - 10:30</td>
+                                <td>1</td>
+                                <td>16hg6vo</td>
+                                <td>G_12</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>10:30 - 1</td>
+                                <td>1</td>
+                                <td>vmbtire</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Thursday</td>
+                                <td>1 - 3:30</td>
+                                <td>1</td>
+                                <td>5abl3qx</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Wafaa Abdelsamieaa</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Monday</td>
+                                <td>8 - 10:30</td>
+                                <td>23</td>
+                                <td>2yhj7n8</td>
+                                <td>G_4</td>
+                              </tr>
+                              <tr>
+                                <td>Monday</td>
+                                <td>10:30 - 1</td>
+                                <td>23</td>
+                                <td>rtjgem6</td>
+                                <td>G_5</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>8 - 10:30</td>
+                                <td>5</td>
+                                <td>h70rpm7</td>
+                                <td>G_6</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>10:30 - 8</td>
+                                <td>5</td>
+                                <td>awkz3ze</td>
+                                <td>G_7</td>
+                              </tr>
+                              <tr>
+                                <td>Tuesday</td>
+                                <td>1 -3:30</td>
+                                <td>5</td>
+                                <td>794n9e3</td>
+                                <td>G_8</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weekBoxs" id="weekBoxs">
+                    <div class="weekly" id="week">
+                      Communication <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="subjects">
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Ahlam ElSaadi</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>8 - 10:30</td>
+                                <td>5</td>
+                                <td>914171v</td>
+                                <td>G_1</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>10:30 - 1</td>
+                                <td>5</td>
+                                <td>azy424z</td>
+                                <td>G_2</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>1 - 3:30</td>
+                                <td>9</td>
+                                <td>y0udxok</td>
+                                <td>G_13</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>3:30 - 6</td>
+                                <td>9</td>
+                                <td>2n8kcye</td>
+                                <td>G_14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Hamdy Gomaa</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>10:30 - 1</td>
+                                <td>22</td>
+                                <td>e3ss0d1</td>
+                                <td>G_8</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>1 - 3:30</td>
+                                <td>22</td>
+                                <td>2f3ykk3</td>
+                                <td>G_9</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>3:30 - 6</td>
+                                <td>22</td>
+                                <td>d3yemjf</td>
+                                <td>G_10</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Mostafa Youssef</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>8 - 10:30</td>
+                                <td>25</td>
+                                <td>ecigl71</td>
+                                <td>G_3</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>10:30 - 1</td>
+                                <td>25</td>
+                                <td>vc4oeyd</td>
+                                <td>G_4</td>
+                              </tr>
+                              <tr>
+                                <td>Saturady</td>
+                                <td>1 - 3:30</td>
+                                <td>25</td>
+                                <td>ywgjstu</td>
+                                <td>G_5</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="auditing">
+                        <div class="head">
+                          <h4>Dr.Omar Sakr</h4>
+                          <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="tables auditings">
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Hall</td>
+                                <td>Code</td>
+                                <td>Group</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>8 - 10:30</td>
+                                <td>12</td>
+                                <td>9a2ttq5</td>
+                                <td>G_6</td>
+                              </tr>
+                              <tr>
+                                <td>Sunday</td>
+                                <td>10:30 - 1</td>
+                                <td>12</td>
+                                <td>hvphimy</td>
+                                <td>G_7</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>8 - 10:30</td>
+                                <td>9</td>
+                                <td>phqq2sp</td>
+                                <td>G_11</td>
+                              </tr>
+                              <tr>
+                                <td>Wednesday</td>
+                                <td>10:30 - 1</td>
+                                <td>9</td>
+                                <td>fjd9dik</td>
+                                <td>G_12</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <!-- End lecturesAndSectionsGuide -->
+
+    </div>
+    <script src="~/js/library.js" asp-append-version="true"></script>
+</body>
+</html>
+

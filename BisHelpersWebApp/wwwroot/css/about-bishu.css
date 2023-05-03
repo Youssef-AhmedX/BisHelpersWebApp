@@ -1,0 +1,410 @@
+main{
+    z-index:9999;
+}
+
+
+.links a {
+
+    display: inline-block;
+    transition: 0.3s;
+}
+.location {
+    width: 80%;
+    margin: auto;
+    padding: 80px 0;
+}
+
+    .location iframe {
+        width: 100%;
+    }
+
+.logo h3 {
+    color: #45424b;
+    font-size: 1.55rem;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.logo h3 a {
+    color: #45424b;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.9rem 1.9rem;
+    color: black !important;
+    background-color: aqua;
+    border-radius: 16px;
+    text-transform: capitalize;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #5bacdf;
+    transform: scale(1) !important;
+}
+
+/* Satrt course */
+header {
+    position: relative;
+    padding: 1.7rem 0 2rem;
+    width: 100%;
+    /* min-height: 100vh; */
+    overflow: hidden;
+    background-color: var(--backgroundColor);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bishu {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    height: 350px;
+    /* padding-top: 100px; */
+    background-color: #f1f8fc;
+    background-image: url(../../img/bis-college3.jpg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width:767px) {
+    .bishu {
+        background-position: right;
+    }
+}
+
+.bishu::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(24 34 75 / 60%);
+}
+
+.bishu h1 {
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    z-index: 1;
+    color: white;
+}
+
+/* End course */
+/* Start Text */
+.text-bishu {
+    margin: 30px;
+}
+
+.text-bishu .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 20px;
+    align-items: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+@media (max-width:767px) {
+    .text-bishu .container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+hr {
+    width: 85%;
+    margin: 0 auto;
+}
+
+/* .text-bishu .container::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(0 0 0 / 10%);
+    top: 125%;
+    left: 0;
+} */
+
+.text-bishu .info {
+    margin: 20px 0px;
+    flex: 1;
+}
+
+.text-bishu .info h2 {
+    font-weight: 500;
+    font-size: 30px;
+    padding-bottom: 24px;
+}
+
+@media (max-width:767px) {
+    .text-bishu .info h2 {
+        font-size: 20px;
+    }
+
+}
+
+.text-bishu .info p {
+    line-height: 1.7;
+    color: #777;
+    padding: 0;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+@media (max-width:767px) {
+    .text-bishu .info p {
+        text-align: left;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+}
+
+.text-bishu .image {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-bishu .image img {
+    width: 300px;
+}
+
+@media (max-width:767px) {
+    .text-bishu img {
+        max-width: 100%;
+    }
+}
+
+.text-bishu .image-two img {
+    width: 400px;
+}
+
+.text-bishu .info-all {
+    margin: 20px auto;
+}
+
+.text-bishu ul {
+    padding-left: 20px;
+}
+
+.text-bishu ul li {
+    line-height: 1.7;
+    color: #777;
+    padding: 0;
+    font-size: 20px;
+}
+
+@media (max-width:767px) {
+    .text-bishu ul li {
+        text-align: left;
+        font-size: 18px;
+    }
+}
+
+.text-bishu ul li::marker {
+    color: #5bacdf;
+}
+
+.img-student img {
+    width: 800px;
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+}
+
+/* End Text */
+/* Start Table */
+.table {
+    width: 100%;
+    min-height: 100vh;
+}
+
+table {
+    background-color: white;
+    /* margin: 50px auto; */
+    width: 100%;
+    border-top: 4px solid #5bacdf;
+    border-radius: 10px;
+    border-spacing: 0;
+}
+
+@media(max-width:767px) {
+    table {
+        margin: 50px 10px;
+        max-width: 100%;
+        width: fit-content;
+    }
+}
+
+table td {
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-bottom: 0px solid #f2f2f2;
+}
+
+@media(max-width:767px) {
+    table td {
+        padding: 0;
+        padding-left: 4px;
+        font-size: 9px;
+    }
+}
+
+table thead td.business {
+    border-top-left-radius: 5px;
+}
+
+table thead td.universty {
+    border-top-right-radius: 5px;
+}
+
+table thead td {
+    background-color: #5bacdf;
+    color: black;
+    line-height: 1.2;
+    padding-top: 19px;
+    padding-bottom: 19px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@media(max-width:767px) {
+    table thead td {
+        font-size: 12px;
+    }
+}
+
+table tbody td {
+    color: #666;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+/* 
+table tbody tr.expand {
+    display: none;
+} */
+
+table tbody td:hover {
+    background-color: rgb(0 255 255 /60%);
+    border-radius: 5px;
+}
+
+/* End Table */
+/* Start Footer */
+footer {
+    background-color: #10182f;
+    margin-top: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+}
+
+.footer-logo h4 {
+    text-align: center;
+    font-weight: normal;
+    font-size: 20px;
+    padding-top: 30px;
+    color: aqua;
+    padding-bottom: 10px;
+}
+
+.footer-logo h4 span {
+    font-family: 'Damion', cursive;
+
+}
+
+.footer-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.footer-links ul li {
+    margin: 20px;
+}
+
+.footer-links ul a {
+    display: inline-block;
+    transition: 0.3s;
+    color: #CCC;
+    transition: 0.3s;
+}
+
+.footer-links ul a:hover {
+    transform: scale(1.1);
+    color: #5bacdf;
+}
+
+.footer-down {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+    .footer-down p {
+        padding: 20px;
+        color: #CCC;
+        margin: 0;
+        font-size: 14px;
+    }
+
+.copy-right {
+    padding: 20px;
+    color: #CCC;
+}
+
+
+@media (max-width:767px) {
+    .footer-down p {
+        display: none;
+    }
+
+    .footer-down .icons {
+        flex-basis: 80%;
+        margin: 0;
+    }
+
+    .footer-down .icons i {
+        padding: 15px;
+    }
+}
+
+.footer-down .icons i {
+    padding: 20px;
+    transition: 0.3s;
+    text-align: center;
+    cursor:pointer;
+}
+
+.footer-down .icons i:nth-child(1):hover {
+    color: #1877f2;
+}
+
+.footer-down .icons i:nth-child(2):hover {
+    color: #fd1d1d;
+}
+
+.footer-down .icons i:nth-child(3):hover {
+    color: #fd1d1d;
+}
+
+/* End Footer */

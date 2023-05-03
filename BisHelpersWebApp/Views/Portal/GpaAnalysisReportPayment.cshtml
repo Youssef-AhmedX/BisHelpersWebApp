@@ -1,0 +1,145 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject UserManager<Student> UserManager
+
+
+@{
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Analysis</title>
+    <link rel="stylesheet" href="~/css/gpaPayment.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+        <div class="image">
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+            {
+                <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+            }
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+            {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+            }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="active"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+
+        <!-- Start Payment -->
+
+        <div class="payment">
+            <div class="titleBox">
+                <h4>GPA Analysis Report Payment</h4>
+            </div>
+            <div class="paymentProcess">
+                <p class="left">
+                    Due to the effort that was put into making the website, formulating a formula to predict how to improve your GPA, time spent on providing other services to make your study life easier.<br />
+                    We decided to make the GPA analysis report for a small amount of money in return to support our team and their constant efforts to make the following semesters better and better.<br />
+                    We provided payment through a safe website called Kashier for financial services.<br />
+                    You can pay by using any of the following bank cards ( Meeza - Visa - MasterCard).
+                </p>
+                <p>
+                    <span class="right">
+                        نظراً للجهد المبذول في برمجة الموقع وتطوير العمليات الحسابية في حساب المعدل التراكمي الدراسي
+                        الخاص بك على مدار ثلاثة أشهر متواصلة والجهود المبذولة في توفير الخدمات الدراسة الأخرى وتطويرها بأستمرار لجعل
+                        الحياة الدراسية الخاصة بك سهلة وممتعة وسريعة.<br />
+                        فبالتالي سيكون التقرير الخاص بالمعدل التراكمي بمبلغ رمزي يساعد فريقنا في التطوير المستمر وتقديم خدمات أفضل على مدار العام الدراسي.<br />
+                        وقد وفرنا طريقة دفع سهلة وامنة وبسيطة بعيداً عن التعقيدات عن طريق منصة كاشير للخدمات المالية التي تمكنكم من الدفع عن طريق جميع انواع الكروت البنكية مثل
+                        (ميزة - MasterCard - Visa) 
+                    </span>
+                </p>
+            </div>
+            <div class="button">
+                <a href="https://merchant.kashier.io/en/paypage/PP-1212264601?mode=live" target="_blank">
+                    Get Report Now For ( 9.99 EGP )
+                </a>
+            </div>
+
+            <div class="boxWarning">
+                <div class="icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <p class="warning">
+                    ATTENTION: If You Paid Successfully, The Report Will Apper within 6 Hours or less Because Payment Process. 
+                    <br />If You Face Any Problem Please <a href="https://www.instagram.com/bis_helpers/" target="_blank">Contact US</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- End Payment -->
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,2091 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject UserManager<Student> UserManager
+
+
+@model IEnumerable<WeeklyUpdates>
+
+@{
+
+    var Week1 = Model.Where(W => W.WeekNumber == "1");
+    var Week2 = Model.Where(W => W.WeekNumber == "2");
+    var Week3 = Model.Where(W => W.WeekNumber == "3");
+    var Week4 = Model.Where(W => W.WeekNumber == "4");
+    var Week5 = Model.Where(W => W.WeekNumber == "5");
+    var Week6 = Model.Where(W => W.WeekNumber == "6");
+    var Week7 = Model.Where(W => W.WeekNumber == "7");
+    var Week8 = Model.Where(W => W.WeekNumber == "8");
+    var Week9 = Model.Where(W => W.WeekNumber == "9");
+    var Week10 = Model.Where(W => W.WeekNumber == "10");
+    var Week11 = Model.Where(W => W.WeekNumber == "11");
+    var Week12 = Model.Where(W => W.WeekNumber == "12");
+    var Week13 = Model.Where(W => W.WeekNumber == "13");
+
+
+    var Auditing1 = Week1.Where(A => A.SubjectName == "Auditing");
+    var Auditing2 = Week2.Where(A => A.SubjectName == "Auditing");
+    var Auditing3 = Week3.Where(A => A.SubjectName == "Auditing");
+    var Auditing4 = Week4.Where(A => A.SubjectName == "Auditing");
+    var Auditing5 = Week5.Where(A => A.SubjectName == "Auditing");
+    var Auditing6 = Week6.Where(A => A.SubjectName == "Auditing");
+    var Auditing7 = Week7.Where(A => A.SubjectName == "Auditing");
+    var Auditing8 = Week8.Where(A => A.SubjectName == "Auditing");
+    var Auditing9 = Week9.Where(A => A.SubjectName == "Auditing");
+    var Auditing10 = Week10.Where(A => A.SubjectName == "Auditing");
+    var Auditing11 = Week11.Where(A => A.SubjectName == "Auditing");
+    var Auditing12 = Week12.Where(A => A.SubjectName == "Auditing");
+    var Auditing13 = Week13.Where(A => A.SubjectName == "Auditing");
+
+    var CostAcounting1 = Week1.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting2 = Week2.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting3 = Week3.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting4 = Week4.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting5 = Week5.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting6 = Week6.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting7 = Week7.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting8 = Week8.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting9 = Week9.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting10 = Week10.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting11 = Week11.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting12 = Week12.Where(C => C.SubjectName == "Cost Acounting");
+    var CostAcounting13 = Week13.Where(C => C.SubjectName == "Cost Acounting");
+
+    var Database1 = Week1.Where(D => D.SubjectName == "Database");
+    var Database2 = Week2.Where(D => D.SubjectName == "Database");
+    var Database3 = Week3.Where(D => D.SubjectName == "Database");
+    var Database4 = Week4.Where(D => D.SubjectName == "Database");
+    var Database5 = Week5.Where(D => D.SubjectName == "Database");
+    var Database6 = Week6.Where(D => D.SubjectName == "Database");
+    var Database7 = Week7.Where(D => D.SubjectName == "Database");
+    var Database8 = Week8.Where(D => D.SubjectName == "Database");
+    var Database9 = Week9.Where(D => D.SubjectName == "Database");
+    var Database10 = Week10.Where(D => D.SubjectName == "Database");
+    var Database11 = Week11.Where(D => D.SubjectName == "Database");
+    var Database12 = Week12.Where(D => D.SubjectName == "Database");
+    var Database13 = Week13.Where(D => D.SubjectName == "Database");
+
+    var E_Commerce1 = Week1.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce2 = Week2.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce3 = Week3.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce4 = Week4.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce5 = Week5.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce6 = Week6.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce7 = Week7.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce8 = Week8.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce9 = Week9.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce10 = Week10.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce11 = Week11.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce12 = Week12.Where(E => E.SubjectName == "E-Commerce");
+    var E_Commerce13 = Week13.Where(E => E.SubjectName == "E-Commerce");
+
+    var Communication1 = Week1.Where(C => C.SubjectName == "Communication");
+    var Communication2 = Week2.Where(C => C.SubjectName == "Communication");
+    var Communication3 = Week3.Where(C => C.SubjectName == "Communication");
+    var Communication4 = Week4.Where(C => C.SubjectName == "Communication");
+    var Communication5 = Week5.Where(C => C.SubjectName == "Communication");
+    var Communication6 = Week6.Where(C => C.SubjectName == "Communication");
+    var Communication7 = Week7.Where(C => C.SubjectName == "Communication");
+    var Communication8 = Week8.Where(C => C.SubjectName == "Communication");
+    var Communication9 = Week9.Where(C => C.SubjectName == "Communication");
+    var Communication10 = Week10.Where(C => C.SubjectName == "Communication");
+    var Communication11 = Week11.Where(C => C.SubjectName == "Communication");
+    var Communication12 = Week12.Where(C => C.SubjectName == "Communication");
+    var Communication13 = Week13.Where(C => C.SubjectName == "Communication");
+
+    var HRM1 = Week1.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM2 = Week2.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM3 = Week3.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM4 = Week4.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM5 = Week5.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM6 = Week6.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM7 = Week7.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM8 = Week8.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM9 = Week9.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM10 = Week10.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM11 = Week11.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM12 = Week12.Where(H => H.SubjectName == "Human Resources Managment");
+    var HRM13 = Week13.Where(H => H.SubjectName == "Human Resources Managment");
+
+
+
+    TimeOnly TimeNow = TimeOnly.FromDateTime(DateTime.Now);
+    TimeOnly MorningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(5));
+    TimeOnly AfternoonTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(12));
+    TimeOnly EveningTime = TimeOnly.FromTimeSpan(TimeSpan.FromHours(18));
+
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Analysis</title>
+    <link rel="stylesheet" href="~/css/week.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="fixedRow">
+        <div class="image">
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 0)
+            {
+                <img src="~/img/Boy.png" alt="Boy" asp-append-version="true">
+
+            }
+            @if (@UserManager.GetUserAsync(User).Result.GenderId == 1)
+            {
+                <img src="~/img/Girl.png" alt="Girl" asp-append-version="true">
+
+            }
+
+        </div>
+        <div class="morning">
+            @if (TimeNow >= MorningTime && TimeNow < AfternoonTime)
+            {
+                <h2>Good Morning, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= AfternoonTime && TimeNow < EveningTime)
+            {
+                <h2>Good Afternoon, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+            @if (TimeNow >= EveningTime || TimeNow < MorningTime)
+            {
+                <h2>Good Evening, <span>@UserManager.GetUserAsync(User).Result.StudentName</span></h2>
+            }
+
+        </div>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <div class="fixedColumn">
+        <ul>
+            <li class="click"><a asp-controller="Portal" asp-action="Index">Home</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="GpaAnalysis">GPA Analysis</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Tools">student Tools</a></li>
+            <li class="click"><a asp-controller="Portal" asp-action="Careers">Careers</a></li>
+            <li class="click">
+                <a asp-controller="Portal" asp-action="StudentLibrary">Student Library</a>
+            </li>
+            <li class="active">
+                <a asp-controller="Portal" asp-action="WeeklyUpdates">Weekly Updates</a>
+            </li>
+            <li class="unclick">
+                <a href="#">BIS-Family Updates</a><i class="fa-solid fa-lock"></i>
+            </li>
+            <li class="contact"><a class="contact" href="https://www.instagram.com/bis_helpers/" target="_blank">IF You Need Any Help!<br />Please Contact Us</a></li>
+
+        </ul>
+        <ul class="btn">
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+
+       <div class="week">
+        <h3>Weekly Updates</h3>
+
+      </div>
+      <div class="desc">
+        <p>
+          <span>What is Weekly Updates?</span> <br />
+          Weekly Updates Feature Genrates Reports based on doctors you registered with 
+          and describe what you have to do this week and prepare for the next weeks to achieve High Grades.
+        </p>
+      </div>
+      <div class="line"></div>
+      <!-- Start  Content -->
+
+      <div class="accordion">
+
+        <div class="weekBoxs hide" id="weekBoxs4">
+          <div class="weekly" id="week"> 
+            Week#4<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM4)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs5">
+          <div class="weekly" id="week"> 
+            Week#5<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM5)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs6">
+          <div class="weekly" id="week"> 
+            Week#6<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM6)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs7">
+          <div class="weekly" id="week"> 
+            Week#7<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs8">
+          <div class="weekly" id="week"> 
+            Week#8<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM7)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs9">
+          <div class="weekly" id="week"> 
+            Week#9<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM9)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs10">
+          <div class="weekly" id="week"> 
+            Week#10<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM10)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs11">
+          <div class="weekly" id="week"> 
+            Week#11<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM11)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs12">
+          <div class="weekly" id="week"> 
+            Week#12<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM12)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weekBoxs hide" id="weekBoxs13">
+          <div class="weekly" id="week"> 
+            Week#13<i class="fa-solid fa-chevron-up"></i>
+          </div>
+          <div class="subjects">
+            <div class="auditing">
+              <div class="head">
+                <h4>Auditing</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table auditing">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Auditing13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="cost">
+              <div class="head">
+                <h4>Cost</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table costs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in CostAcounting13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="database">
+              <div class="head">
+                <h4>DataBase</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table databases">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Database13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="e-commerce">
+              <div class="head">
+                <h4>E-commerce</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table e-commerces">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in E_Commerce13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="communication">
+              <div class="head">
+                <h4>communication</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table communications">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in Communication13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+
+                    }                  
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="HRM">
+              <div class="head">
+                <h4>Human Resources Management</h4>
+                <i class="fa-solid fa-chevron-up"></i>
+              </div>
+              <div class="table HRMs">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="name">Professor</td>
+                      <td style="width:40%">Progress</td>
+                      <td style="width:20%">Assignments & Quizzes</td>
+                      <td style="width:20%">Note</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var obj in HRM13)
+                    {
+                        <tr>
+                            <td class="name">@obj.ProfName</td>
+                            <td style="width:40%">@obj.ProfProgress</td>
+                            <td style="width:20%">@obj.ProfAssignments</td>
+                            <td style="width:20%">@obj.Note</td>
+                        </tr>
+                    }                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+    <script src="~/js/week.js" asp-append-version="true"></script>
+    <script src="~/js/WeekTime.js" asp-append-version="true"></script>
+    
+
+
+    
+</body>
+</html>
+
+

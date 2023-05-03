@@ -1,0 +1,518 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* :root {
+} */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background-color: #5bacdf;
+  line-height:1.3;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* End Global Rules */
+/* Start Head */
+
+/* Start GPA */
+.SaveGpaBox {
+    display: flex;
+    justify-content: space-around;
+}
+
+.information {
+    width: 75%;
+    padding-right: 20px;
+}
+
+.explanation p {
+    padding: 10px;
+    text-align: right;
+    unicode-bidi: plaintext;
+}
+
+.Table {
+    width: 25%;
+    border-left: 1px solid black;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    background-image: linear-gradient(180deg, #75abd6 0%, #fff 67%);
+    border-radius: 10px;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+    padding: 2px;
+
+}
+
+    table thead tr {
+        background-color: #75abd6;
+    }
+
+    table thead th {
+        padding: 5px;
+        color: #fff;
+        font-size: 10px;
+    }
+
+    table tbody td {
+        border-bottom: 1px solid #eee;
+        border-left: 1px solid #eee;
+        background-color: #ffffff;
+        padding: 5px;
+        font-size: 10px;
+        font-weight: 400;
+        text-align: center;
+        transition: 0.3s;
+    }
+
+.Table table tbody tr:hover td {
+    background-color: #cbe8ffd9;
+}
+/* @media (max-width: 767px) {
+  .table table tbody td {
+    padding: 23px;
+  }
+} */
+.Table table thead th.raduisleft {
+    border-top-left-radius: 10px;
+}
+
+.Table table thead th.raduisright {
+    border-top-right-radius: 10px;
+}
+
+.Table table tbody td.raduisleft {
+    border-bottom-left-radius: 10px;
+}
+
+.Table table tbody td.raduisright {
+    border-bottom-right-radius: 10px;
+}
+
+.Table table tbody td p {
+    font-size: 15px;
+}
+/* End GPA */
+
+.back {
+  width: 900px;
+  margin: 80px auto;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.btn {
+    color: aqua;
+    background-color: #162447;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 10px;
+    align-self: flex-end;
+    transition: 0.3s;
+    margin: 10px 10px 0 10px;
+    font-size: large;
+    border: 2px solid #162447;
+    text-align: center;
+}
+.btn:hover {
+    background-color: aqua;
+    color: #162447;
+    outline: #162447;
+}
+
+
+.btnII {
+    display: flex;
+    z-index: 999999;
+}
+@media (max-width: 767px) {
+    .btnII {
+        margin-top:100px;
+    }
+}
+
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+.headLtBox {
+  background-color: #162447;
+  border-radius: 10px;
+}
+.headLtBox h2 {
+  color: aqua;
+  font-size: 30px;
+  margin-right: 20px;
+  margin-left: 20px;
+  letter-spacing: 10px;
+}
+.right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.right span.id {
+  padding-right: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.right .headRtBox {
+  position: relative;
+  padding: 30px;
+  background-color: #162447;
+  border-radius: 10px;
+}
+/* End Head */
+/* Start Info */
+
+.info {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: 100px;
+  margin-right: 20px;
+}
+
+.infoLt {
+  flex-basis: 50%;
+}
+
+.infoLt p {
+    margin-bottom:10px;
+  font-size: 20px;
+  position: relative;
+  width: 288px;
+  font-weight: bold;
+  margin-left: -80px;
+}
+.NoBold
+{
+    font-weight:normal;
+}
+.infoLt p::before {
+    position: absolute;
+    content: "";
+    width: 80%;
+    height: 2px;
+    left: -30px;
+    background-color: #ccc;
+    bottom: -5px;
+}
+
+.infoLt ul {
+  width: 525px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.infoLt ul li {
+  padding: 10px;
+  padding-left: 0px;
+  font-size: 15px;
+}
+span {
+  font-weight: bold;
+}
+ .infoRt {
+     margin:auto;
+ } 
+.infoRt img {
+  max-width: 100px;
+
+}
+.line {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  height: 3px;
+  bottom: 0;
+  background-color: #d9d9d9d9;
+}
+/* End Info */
+
+/* Start SaveGPA */
+
+.saveGpa {
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 30px;
+  margin-bottom: 30px;
+}
+.saveGpa .line {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  margin: 30px 0 30px 0;
+  bottom: -4px;
+  background-color: #d9d9d9d9;
+}
+    .saveGpa h3.title {
+        font-size: 25px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+.chart {
+  margin: 40px 10px;
+}
+.chart img {
+  width: 700px;
+  border-radius: 10px;
+}
+.saveGpa .box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #5bacdf;
+  box-shadow: 0 0 10px #ddd;
+  border-radius: 10px;
+  margin: 10px;
+}
+.saveGpa .box .warning {
+  color: yellow;
+}
+.saveGpa .box p {
+  padding: 30px;
+  font-weight: 600;
+  font-size: 20px;
+  color: #fff;
+  line-height: 1.6;
+}
+.desc{
+    padding:0 10px;
+}
+/* End SaveGPA */
+/* Start GmproveGpa */
+.Report {
+    padding: 10px;
+}
+.card {
+  margin: 30px auto;
+  width: fit-content;
+  background-color: #162447;
+  box-shadow: 0 0 10px #ddd;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.card .cardEx {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card .cardEx .head {
+  margin: 20px 0;
+  font-weight: bold;
+}
+.card .cardEx .head h4 {
+  margin: 0;
+  color: aqua;
+  font-size: 35px;
+}
+
+.card .cardEx .carddesc {
+  margin: 20px 0;
+  color: #fff;
+  text-align: center;
+}
+.card .cardEx .carddesc p {
+  font-size: 20px;
+  padding: 10px;
+}
+.card .cardEx .carddesc i {
+    font-size: 40px;
+    color:#fff;
+
+}
+i {
+
+  color: #162447;
+}
+/* End GmproveGpa */
+/* Start Footer */
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+/* End Footer */
+
+a {
+  cursor: pointer;
+}
+
+
+/*background*/
+
+
+.context {
+    width: 100%;
+    position: absolute;
+    top: 50vh;
+    z-index: 1;
+}
+
+    .context h1 {
+        text-align: center;
+        color: #fff;
+        font-size: 50px;
+        z-index: 1;
+    }
+
+
+
+
+.area {
+    background: #5bacdf;
+
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: -1;
+}
+
+.circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+    .circles li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+        background-image: url(../img/1.png);
+        background-size: 100%;
+    }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+
+
+@keyframes animate {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}

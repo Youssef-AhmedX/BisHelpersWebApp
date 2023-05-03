@@ -1,0 +1,140 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="UnOfficial website of BIS-HU. To provide help in the learning process, improve it and to
+                            make it easier for you.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/contact.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Main.css" asp-append-version="true">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+</head>
+
+<body>
+    <main>
+        <div class="big-wrapper light">
+            <header>
+                <div class="container">
+                    <div class="logo">
+                        <a asp-controller="LandingPage" asp-action="Index"> <img src="../img/BIS_helpers-mdwr.png" alt="Logo" /></a>
+                        <h3> <a asp-controller="LandingPage" asp-action="Index"> BIS <span class="helpers"> helpers</span></a></h3>
+                    </div>
+
+                    <div class="links">
+                        <ul>
+                            <li><a asp-controller="LandingPage" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="WhatsBIS">What's BIS HU</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="AboutUs">About Us</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="ContactUs">Contact Us</a></li>
+                            @{
+                                if (SignInManager.IsSignedIn(User))
+                                {
+                                    <form>
+                                    <li><a asp-controller="Portal" asp-action="Index" class="btn" target="_blank">Hello @UserManager.GetUserAsync(User).Result.StudentName!</a></li>
+                                    </form>
+                                    //<button type="submit">Logout</button>
+                                }
+                                else
+                                {
+                                    <li><a asp-area="Identity" asp-page="/Account/Signin" class="btn" target="_blank">Sign In</a></li>
+                                }
+
+                            }
+                        </ul>
+                    </div>
+@*                    <div class="overlay"></div>
+                    <div class="hamburger-menu">
+                        <div class="bar"></div>
+                    </div>*@
+                </div>
+            </header>
+        </div>
+    </main>
+
+ 
+    <section class="contact">
+        <h1>Contact Us</h1>
+    </section>
+
+    <section class="location">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6905.613017381225!2d31.2163288!3d30.0710803!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840fc5cf0dcfb%3A0x5c8b8a3b52b6bcbc!2sBusiness%20Information%20System%20%26%20Financial%20Markets%20and%20Institutions%2C%20Faculty%20of%20Commerce%20%26%20BA%2C%20Helwan%20University!5e0!3m2!1sen!2seg!4v1659934159111!5m2!1sen!2seg"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <section class="conatct-us">
+        <div class="row">
+            <div class="conatct-col">
+                <div>
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>
+                        <h5><a href="https://www.instagram.com/bis_helpers/" target="_blank">Instagram</a></h5>
+                        <a href="https://www.instagram.com/bis_helpers/" target="_blank">Bis_helpers</a>
+                    </span>
+                </div>
+                <div>
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>
+                        
+                        <h5><a href="mailto:helpersbis@gmail.com" target="_blank">Email</a></h5>
+                        <a href="mailto:helpersbis@gmail.com" target="_blank">helpersbis@gmail.com</a>
+                    </span>
+                </div>
+            </div>
+            <div class="image_one">
+                <img src="../img/contact-img.png" alt="">
+            </div>
+            <div class="image_two">
+                <img src="../img/contact-image-2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Footer -->
+    <footer>
+        <div class="footer-logo">
+            <h4>Bis <span> helpers</span></h4>
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><a asp-controller="LandingPage" asp-action="Index">Home</a></li>
+                <li><a asp-controller="LandingPage" asp-action="WhatsBIS">What's BIS HU</a></li>
+                <li><a asp-controller="LandingPage" asp-action="AboutUs">About Us</a></li>
+                <li><a asp-controller="LandingPage" asp-action="ContactUs">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-down">
+            <div class="copy-right">
+                &copy;2022 BIS helpers.All rights reserved.
+            </div>
+            <div class="icons">
+                <a href="https://www.instagram.com/bis_helpers/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:helpersbis@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p>Developed By BIS Helpers Team</p>
+        </div>
+    </footer>
+    <!-- End Footer  &lt;3 -->
+
+    <!-- JavaScript Files -->
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <script src="~/js/app.js"></script>
+</body>
+
+</html>

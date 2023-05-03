@@ -1,0 +1,666 @@
+﻿@using BisHelpersWebApp.Models
+@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+
+@inject UserManager<Student> UserManager
+
+
+@{
+    var Report = ViewBag.Message;
+    var TotalSubjects = Model.TwoHoursSubjectsNum + Model.ThreeHoursSubjectsNum;
+    var TotalHours = (Model.TwoHoursSubjectsNum * 2) + (Model.ThreeHoursSubjectsNum * 3);
+
+}
+
+@model Reports
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal - GPA Report</title>
+    <link rel="stylesheet" href="~/css/ReportCss.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div class="back">
+         <div class="btnII">
+            <a class="btn" onclick="generatePDF()">Download Report</a>
+        </div>
+      <div id="Report" class="Report">
+        <!-- Start Head -->
+        <div class="head">
+          <div class="headLtBox">
+            <h2>GPA Analysis Report</h2>
+          </div>
+          <div class="right">
+            <span class="id">@UserManager.GetUserAsync(User).Result.StudentCollageId</span>
+            <div class="headRtBox"></div>
+          </div>
+        </div>
+        <!-- End Head -->
+
+        <!-- Start Info -->
+        <div class="info">
+          <div class="infoLt">
+            <p class="name">@UserManager.GetUserAsync(User).Result.StudentName</p>
+            <ul>
+                <li>Level: <span>@UserManager.GetUserAsync(User).Result.Level</span></li>
+                <li>GPA: <span>@UserManager.GetUserAsync(User).Result.Gpa</span></li>
+                <li>Hours Done: <span>@Model.HoursDone</span></li>
+                <li>Semester Registrated Hours: <span>@TotalHours</span></li>
+                <li>Total Points: <span>@Report.CurrentTotalPoints</span> (Out Of @Report.MaxPoints) </li>
+                <li>Semester Registrated Subjects number: <span>@TotalSubjects</span></li>
+            </ul>
+          </div>
+          <div class="infoRt">
+            <img src="~/img/BIS_helpers-removebg II.png" alt="" />
+          </div>
+        </div>
+        <div class="line"></div>
+        <!-- End Info -->
+
+        <!-- Start SaveGPA -->
+        <div class="saveGpa">
+          <div class="saveGpaTitle">
+             
+            <h3 class="title">Save Your GPA Result:</h3>
+          </div>
+           <div class="SaveGpaBox">
+                <div class="information">
+                   <div class="details">
+                        <div>
+                            <p class="desc">
+                                You have to get:<br />
+                                @if (Model.TwoHoursSubjectsNum != 0)
+                                {
+                                    <span>( A )</span> <span class="NoBold"> minimum for 2 Hours subjects,</span>
+
+                                    <br />
+
+                                }
+                                <span>( @Report.SaveGpa )</span> minimum for 3 Hours subjects,
+                                <br />
+                                    To Save Your GPA From Decreasing And keep Your Progress Safe
+                            </p>
+                        </div>
+                   </div>
+                   <div class="explanation">
+                        @{
+                            if (Model.CurrentTotalGpa >= 3.4)
+                            {
+                                    <p>
+                                            لقد درست بأجتهاد لتحصل على تقدير أمتياز خلال فترة دراستك ولكن 
+                                            الأصعب من تحقيق تقدير الأمتياز هو الحفاظ عليه حتى التخرج لذلك يجب عليك الحصول على درجة
+                                        <span>
+                                            ( @Report.SaveGpa ) 
+                                        </span>
+                                            على الأقل في المواد ذات ثلاث ساعات معتمدة
+                                               
+                                            @if (Model.TwoHoursSubjectsNum != 0)
+                                            {
+                                                <span class="NoBold">
+                                                        والحصول على درجة
+                                                </span>   
+                                                <span>
+                                                        ( A )
+                                                </span>   
+                                                <span class="NoBold">
+                                                    على الأقل في المواد ذات ساعاتين معتمدة
+                                                </span>   
+                                                    
+                                            }
+                                               
+                                            للحفاظ على ثبات المعدل التراكمي الكلي الخاص بك بنهاية هذا الفصل الدراسي
+                                            والأستمرار في تحقيق المزيد من النجاحات.
+                                            <br />
+                                            @if(@Report.SaveGpa != "A+")
+                                            {
+                                                <span class="NoBold">
+                                                    أما إذأ أردت زيادة المعدل التراكمي الخاص بك فيجب عليك الحصول على درجة أعلى من
+                                                </span>
+                                                <span>
+                                                ( @Report.SaveGpa )
+                                                </span>
+                                                <span class="NoBold">
+                                                    في جميع المواد حتى تنهي الفصل الدراسي بمعدل تراكمي أعلى من المعدل التراكمي الحالي الخاص بك وتحقيق مزيد من التفوق.
+                                                </span>
+
+                                            }
+
+                                    </p>
+
+                            }
+                            else if (Model.CurrentTotalGpa >= 2.8)
+                            {
+                                    <p>
+                                        لقد درست بأجتهاد لتحصل على تقدير جيد جداً خلال فترة دراستك ولكن
+                                        الأصعب من تحقيق تقدير الجيد جداً هو الحفاظ علي المعدل التراكمي الخاص بك حتى الوصول إلى تقدير إمتياز
+                                        فيجب عليك الحصول على درجة
+                                        <span>
+                                            ( @Report.SaveGpa )
+                                        </span>
+                                        على الأقل في المواد ذات ثلاث ساعات معتمدة
+
+                                        @if (Model.TwoHoursSubjectsNum != 0)
+                                        {
+                                            <span class="NoBold">
+                                                والحصول على درجة
+                                            </span>
+                                            <span>
+                                                ( A )
+                                            </span>
+                                            <span class="NoBold">
+                                                على الأقل في المواد ذات ساعتين معتمدة
+                                            </span>
+
+                                        }
+
+                                        للحفاظ على ثبات المعدل التراكمي الكلي الخاص بك بنهاية هذا الفصل الدراسي.
+                                        <br />
+                                        @if (@Report.SaveGpa != "A+")
+                                        {
+                                            <span class="NoBold">
+                                                أما إذأ أردت زيادة المعدل التراكمي الخاص بك فيجب عليك الحصول على درجة أعلى من
+                                            </span>
+                                            <span>
+                                                ( @Report.SaveGpa )
+                                            </span>
+                                            <span class="NoBold">
+                                                في جميع المواد حتى تنهي الفصل الدراسي بمعدل تراكمي أعلى من المعدل التراكمي الحالي الخاص بك وتحقيق مزيد من التفوق.
+                                            </span>
+
+                                        }
+
+                                    </p>
+                            }
+                            else if (Model.CurrentTotalGpa >= 2.4)
+                            {
+                                    <p>
+                                        
+                                        لقد حاولت في الحصول على درجات مرتفعة ولكن يبدو أنك لم تكون موفق في بعض المحاولات 
+                                        ولكن حصولك على تقدير جيد هوا بداية لتحصل على تقدير جيد جداً خلال الفترة القادمة
+                                        حتى الوصول إلى تقدير إمتياز لذلك
+                                        يجب عليك الحصول على درجة
+                                        <span>
+                                            ( @Report.SaveGpa )
+                                        </span>
+                                        على الأقل في المواد ذات ثلاث ساعات معتمدة
+
+                                        @if (Model.TwoHoursSubjectsNum != 0)
+                                        {
+                                            <span class="NoBold">
+                                                والحصول على درجة
+                                            </span>
+                                            <span>
+                                                ( A )
+                                            </span>
+                                            <span class="NoBold">
+                                                على الأقل في المواد ذات ساعتين معتمدة
+                                            </span>
+
+                                        }
+
+                                        للحفاظ على ثبات المعدل التراكمي الكلي الخاص بك بنهاية هذا الفصل الدراسي.
+                                        <br />
+                                        @if (@Report.SaveGpa != "A+")
+                                        {
+                                            <span class="NoBold">
+                                                أما إذأ أردت زيادة المعدل التراكمي الخاص بك فيجب عليك الحصول على درجة أعلى من
+                                            </span>
+                                            <span>
+                                                ( @Report.SaveGpa )
+                                            </span>
+                                            <span class="NoBold">
+                                                في جميع المواد حتى تنهي الفصل الدراسي بمعدل تراكمي أعلى من المعدل التراكمي الحالي الخاص بك وتحقيق مزيد من التفوق.
+                                            </span>
+
+                                        }
+
+                                    </p>
+                            }
+                            else if (Model.CurrentTotalGpa >= 2)
+                            {
+                                    <p>
+                                        
+                                        لقد حاولت في الحصول على درجات مرتفعة ولكن يبدو أنك لم تكون موفق في تلك المحاولات 
+                                        ولكن حصولك على تقدير مقبول هوا إنذار تنبيه لتبدأ في المحاولة في زيادة المعدل التراكمي خلال الفترة القادمة
+                                        حتى الوصول إلى تقدير مناسب لذلك
+                                        يجب عليك الحصول على درجة
+                                        <span>
+                                            ( @Report.SaveGpa )
+                                        </span>
+                                        على الأقل في المواد ذات ثلاث ساعات معتمدة
+
+                                        @if (Model.TwoHoursSubjectsNum != 0)
+                                        {
+                                            <span class="NoBold">
+                                                والحصول على درجة
+                                            </span>
+                                            <span>
+                                                ( A )
+                                            </span>
+                                            <span class="NoBold">
+                                                على الأقل في المواد ذات ساعتين معتمدة
+                                            </span>
+
+                                        }
+
+                                        للحفاظ على ثبات المعدل التراكمي الكلي الخاص بك بنهاية هذا الفصل الدراسي.
+                                        <br />
+                                        @if (@Report.SaveGpa != "A+")
+                                        {
+                                            <span class="NoBold">
+                                                أما إذأ أردت زيادة المعدل التراكمي الخاص بك فيجب عليك الحصول على درجة أعلى من
+                                            </span>
+                                            <span>
+                                                ( @Report.SaveGpa )
+                                            </span>
+                                            <span class="NoBold">
+                                                في جميع المواد حتى تنهي الفصل الدراسي بمعدل تراكمي أعلى من المعدل التراكمي الحالي الخاص بك وتحقيق مزيد من التفوق.
+                                            </span>
+
+                                        }
+
+                                    </p>
+                            }
+                            else if (Model.CurrentTotalGpa >= 1.4)
+                            {
+                            }
+                            else
+                            {
+                            }
+                        }
+                   </div>
+               </div>
+               <div class="Table">
+                    <table>
+                            <thead>
+                                <tr>
+                                    <th class="raduisleft">Grade</th>
+                                    <th>Degrees</th>
+                                    <th class="raduisright">Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A+</td>
+                                    <td>90 - 100</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td>85 - 90</td>
+                                    <td>3.75</td>
+                                </tr>
+                                <tr>
+                                    <td>B+</td>
+                                    <td>80 - 85</td>
+                                    <td>3.4</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>75 - 80</td>
+                                    <td>3.1</td>
+                                </tr>
+                                <tr>
+                                    <td>C+</td>
+                                    <td>70 -75</td>
+                                    <td>2.8</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>65 - 70</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td>D+</td>
+                                    <td>60 -65</td>
+                                    <td>2.25</td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td>50 - 60</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td class="raduisleft">F</td>
+                                    <td>Less than 50</td>
+                                    <td class="raduisright">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+               </div>
+           </div>
+
+        </div>
+        <div class="line"></div>
+        <!-- End SaveGPA -->
+        <!-- Start improve GPA -->
+            <div class="saveGpa" id="page2el">
+                <div class="saveGpaTitle">
+
+                    <h3 class="title">Improving Your GPA Results:</h3>
+                </div>
+                <div class="SaveGpaBox">
+                    <div class="information">
+                        <div class="details">
+                        @{
+
+                            if (Report.SemesterTargetExcellent != "none")
+                            {
+                                        <div>
+
+                                            @{
+                                            if (Report.SemesterTargetExcellent != "Failed")
+                                                {
+                                                            <p class="desc">
+                                                                If You Want Get Excellent this semester You have to get:<br />
+                                                                @if (Model.TwoHoursSubjectsNum != 0)
+                                                                {
+                                                                    <span>
+                                                                        (A) minimum for 2 Hours subjects
+                                                                    </span>
+                                                                    <br />
+                                                                }
+                                                                <span>( @Report.SemesterTargetExcellent )</span> minimum for 3 Hours subjects
+                                                            </p>
+
+                                                }
+                                                else
+                                                {
+                                                            <p class="desc warning">
+                                                                <i class="bi bi-exclamation-circle"></i> You Can't reach
+                                                                Excellent this semester!
+                                                            </p>
+                                                }
+                                            }
+
+
+                                        </div>
+                            }
+                            else
+                            {
+                                        <div class="card">
+                                            <div class="cardEx">
+                                                <div class="head">
+                                                    <h4>Congratulations</h4>
+                                                </div>
+                                                <div class="carddesc">
+                                                    <p>
+                                                        You Already Reach Excellent Grade<br />
+                                                        You Are in the Top of Your Improvement Process
+                                                    </p>
+                                                    <i class="fa-solid fa-ranking-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                            }
+                            if (Report.SemesterTargetVeryGood != "none")
+                            {
+                                        <div >
+
+                                            @{
+                                        if (Report.SemesterTargetVeryGood != "Failed")
+                                        {
+                                                            <p class="desc">
+                                                                If You Want Get Very Good this semester You have to get:<br />
+                                                                @if (Model.TwoHoursSubjectsNum != 0)
+                                                {
+                                                                    <span>
+                                                                        (A) minimum for 2 Hours subjects
+                                                                    </span>
+                                                                    <br />
+                                                }
+                                                                <span>( @Report.SemesterTargetVeryGood )</span> minimum for 3 Hours subjects
+                                                            </p>
+
+                                        }
+                                        else
+                                        {
+                                                            <p class="desc warning">
+                                                                <i class="bi bi-exclamation-circle"></i> You Can't reach
+                                                                Very Good this semester!
+                                                            </p>
+                                        }
+                                            }
+
+
+                                        </div>
+
+                            }
+                            if (Report.SemesterTargetGood != "none")
+                            {
+                                        <div >
+
+                                            @{
+                                        if (Report.SemesterTargetGood != "Failed")
+                                        {
+                                                            <p class="desc">
+                                                                If You Want Get Good this semester You have to get:<br />
+                                                                @if (Model.TwoHoursSubjectsNum != 0)
+                                                {
+                                                                    <span>
+                                                                        (A) minimum for 2 Hours subjects
+                                                                    </span>
+                                                                    <br />
+                                                }
+                                                                <span>( @Report.SemesterTargetGood )</span> minimum for 3 Hours subjects
+                                                            </p>
+
+                                        }
+                                        else
+                                        {
+                                                            <p class="desc warning">
+                                                                <i class="bi bi-exclamation-circle"></i> You Can't reach
+                                                                Good this semester!
+                                                            </p>
+                                        }
+                                            }
+
+
+                                        </div>
+
+                            }
+                            if (Report.SemesterTargetPass != "none")
+                            {
+                                        <div >
+
+                                            @{
+                                        if (Report.SemesterTargetPass != "Failed")
+                                        {
+                                                            <p class="desc">
+                                                                If You Want Get Pass this semester You have to get:<br />
+                                                                @if (Model.TwoHoursSubjectsNum != 0)
+                                                {
+                                                                    <span>
+                                                                        (A) minimum for 2 Hours subjects
+                                                                    </span>
+                                                                    <br />
+                                                }
+                                                                <span>( @Report.SemesterTargetPass )</span> minimum for 3 Hours subjects
+                                                            </p>
+
+                                        }
+                                        else
+                                        {
+                                                            <p class="desc warning">
+                                                                <i class="bi bi-exclamation-circle"></i> You Can't reach
+                                                                Pass this semester!
+                                                            </p>
+                                        }
+                                            }
+
+
+                                        </div>
+
+                            }
+                            if (Report.SemesterTargetWeak != "none")
+                            {
+                                        <div >
+
+                                            @{
+                                        if (Report.SemesterTargetWeak != "Failed")
+                                        {
+                                                            <p class="desc">
+                                                                If You Want Get Weak this semester You have to get:<br />
+                                                                @if (Model.TwoHoursSubjectsNum != 0)
+                                                {
+                                                                    <span>
+                                                                        (A) minimum for 2 Hours subjects
+                                                                    </span>
+                                                                    <br />
+                                                }
+                                                                <span>( @Report.SemesterTargetWeak )</span> minimum for 3 Hours subjects
+                                                            </p>
+
+                                        }
+                                        else
+                                        {
+                                                            <p class="desc warning">
+                                                                <i class="bi bi-exclamation-circle"></i> You Can't reach
+                                                                Weak this semester!
+                                                            </p>
+                                        }
+                                            }
+
+
+                                        </div>
+
+                            }
+
+                        }
+
+                        </div>
+                        <div class="explanation">
+                            @{
+                                if (Model.CurrentTotalGpa >= 3.4)
+                                {
+
+                                }
+                                else if (Model.CurrentTotalGpa >= 2.8)
+                                {
+
+                                }
+                                else if (Model.CurrentTotalGpa >= 2.4)
+                                {
+
+
+                                }
+                                else if (Model.CurrentTotalGpa >= 2)
+                                {
+
+                                }
+                                else if (Model.CurrentTotalGpa >= 1.4)
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="Table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="raduisleft">GPA</th>
+                                    <th class="raduisright">Degrees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>More Than 3.4</td>
+                                    <td>إمتياز</td>
+                                </tr>
+                                <tr>
+                                    <td>2.8</td>
+                                    <td>جيد جداً</td>
+                                </tr>
+                                <tr>
+                                    <td>2.4</td>
+                                    <td>جيد</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>مقبول</td>
+                                </tr>
+                                <tr>
+                                    <td>1.4</td>
+                                    <td>ضعيف</td>
+                                </tr>
+                                <tr>
+                                    <td class="raduisleft">Less Than 1.4</td>
+                                    <td class="raduisright">ضعيف جداً</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            
+            <div class="line"></div>
+
+
+        <!-- End improve GPA -->
+        <!-- Start Footer -->
+        <div class="footer">
+          <div class="copryright">
+            &copy;2022 BIS helpers.All rights reserved.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Footer -->
+
+
+
+    <script src="~/js/GeneratePdf.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+

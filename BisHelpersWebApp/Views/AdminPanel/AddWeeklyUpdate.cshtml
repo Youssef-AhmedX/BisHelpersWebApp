@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using BisHelpersWebApp.Areas.Identity.Data
+
+
+@model WeeklyUpdates
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BisHelpersWebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand">ADMIN PANEL</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"></div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post" class="form-inline">
+                            <button class="nav-link btn btn-link text-dark" type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            
+            <form method="post">
+                <div class="border p-3 mt-4">
+                    <div class="row pb-2">
+                        <h2 class="text-primary">Create Weekly Update</h2>
+                        <hr />
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger"></div><br />
+
+                    <div class="mb-3">
+                        <label asp-for="WeekNumber"></label>
+                        <select asp-for="WeekNumber"  aria-required="true" class="form-control">
+                            <option value="4">WeeK 4</option>
+                            <option value="5">WeeK 5</option>
+                            <option value="6">WeeK 6</option>
+                            <option value="7">WeeK 7</option>
+                            <option value="8">WeeK 8</option>
+                            <option value="9">WeeK 9</option>
+                            <option value="10">WeeK 10</option>
+                            <option value="12">WeeK 12</option>
+                            <option value="13">WeeK 13</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="SubjectName"></label>
+                        <select asp-for="SubjectName" aria-required="true" class="form-control">
+
+                            <option value="E-Commerce">E-Commerce</option>
+                            <option value="Database">Database</option>
+                            <option value="Cost Acounting">Cost Accounting</option>
+                            <option value="Auditing">Auditing</option>
+                            <option value="Human Resources Managment">HRM</option>
+                            <option value="Communication">Communication</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ProfName"></label>
+                        <select asp-for="ProfName" aria-required="true" class="form-control">
+
+                            <option value="Ahmed Mounir">Ahmed Mounir</option>
+                            <option value="Ahmed Abdelwahab">Ahmed Abdelwahab</option>
+                            <option value="Ahmed Elsadawy">Ahmed Elsadawy</option>
+                            <option value="Assam Shaaban">Assam Shaaban</option>
+                            <option value="Ahlam ElSaadani">Ahlam ElSaadani</option>
+                            <option value="Abdelrahman Farmawy">Abdelrahman Farmawy</option>
+                            <option value="Eman Hassan">Eman Hassan</option>
+                            <option value="Fahd Kamal">Fahd Kamal</option>
+                            <option value="Fahd Elshreef">Fahd Elshreef</option>
+                            <option value="Hamdy Gomaa">Hamdy Gomaa</option>
+                            <option value="Hanan Gaber">Hanan Gaber</option>
+                            <option value="Hager Abdelrahman">Hager Abdelrahman</option>
+                            <option value="Mohiy Samy">Mohiy Samy</option>
+                            <option value="Marwa Mansoor">Marwa Mansoor</option>
+                            <option value="Mohamed Shaban">Mohamed Shaban</option>
+                            <option value="Mostafa Youssef">Mostafa Youssef</option>
+                            <option value="Nehal Allam">Nehal Allam</option>
+                            <option value="Omar Sakr">Omar Sakr</option>
+                            <option value="Shereen Tabab">Shereen Tabab</option>
+                            <option value="Wafaa Abdelsamie">Wafaa Abdelsamie</option>
+                            <option value="Yehia Helmy">Yehia Helmy</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ProfProgress"></label>
+                        <input asp-for="ProfProgress" class="form-control" style="height: fit-content;" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ProfAssignments"></label>
+                        <input asp-for="ProfAssignments" class="form-control" id="exampleTextarea" />
+                    </div>                    
+                    <div class="mb-3">
+                        <label asp-for="Note"></label>
+                        <input asp-for="Note" class="form-control" id="exampleTextarea" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
+                    <a asp-controller="AdminPanel" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                        Back to Panel
+                    </a>
+                </div>
+            </form>
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+

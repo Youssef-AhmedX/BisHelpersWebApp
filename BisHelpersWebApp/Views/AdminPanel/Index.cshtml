@@ -1,0 +1,831 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using BisHelpersWebApp.Areas.Identity.Data
+
+
+@model MultipleViewModel
+
+@{
+
+    var SortedReports = Model.objReportsList.OrderByDescending(R => R.CurrentTotalGpa).ThenBy(R => R.ReportId);
+    var SortedStudents = Model.objUsersList.OrderBy(S => S.StudentName).ThenBy(S => S.StudentCollageId);
+    var SortedWeeklyUpdates = Model.objWeeklyUpdatesList.OrderBy(S => S.WeekNumber).ThenBy(S => S.SubjectName);
+    Model.objAssignmentSupportList.OrderBy(S => S.PublishedDate).ThenBy(S => S.ProfName); 
+    Model.objSQsupportList.OrderBy(S => S.PublishedDate).ThenBy(S => S.SubjectName).Reverse();
+    var AssignmentSupportRequests = Model.objAssignmentSupportList.Where(O => O.RequestStat == 0).Reverse();
+    var SQsupportRequests = Model.objSQsupportList.Where(O => O.RequestStat == 0).Reverse();
+    var AssignmentSupportApproved = Model.objAssignmentSupportList.Where(O => O.RequestStat == 1).Reverse();
+    var SQsupportApproved = Model.objSQsupportList.Where(O => O.RequestStat == 1).Reverse();    
+    var AssignmentSupportRejected = Model.objAssignmentSupportList.Where(O => O.RequestStat == 2).Reverse();
+    var SQsupportRejected = Model.objSQsupportList.Where(O => O.RequestStat == 2).Reverse();
+
+
+}  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BisHelpersWebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand">ADMIN PANEL</a>
+                <div class="collapse navbar-collapse" id="navbarColor03">
+                    <ul class="navbar-nav me-auto">
+
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#UserManagement">User Management
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#GPAAnalysis">
+                            GPA Analysis
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#WeeklyUpdates">Weekly Updates
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#StudentLibrary">Student Library
+                      </a>
+                    </li>
+                </ul>
+
+                <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Signin", new { area = "Identity" })" method="post" class="d-flex">
+                    <button class="nav-link btn btn-link text-dark" type="submit">Logout</button>
+                </form>
+
+                </div>
+                
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <h1 id="UseresManagement"><i class="bi bi-person-bounding-box"></i> Useres Management</h1>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+                    
+                    <thead>
+                        <tr>
+                            <th>
+                                Student ID
+                            </th>
+                            <th>
+                                Student Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Collage ID
+                            </th>
+                            <th>
+                                Report Payment State
+                            </th>
+                            <th>
+                                Weekly Payment State
+                            </th>
+                            <th>
+                                Level
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in SortedStudents)
+                        {
+
+                            <tr>
+                                <td style="max-width:20%" width="20%">
+                                    @obj.Id
+                                </td>
+                                <td style="max-width:15%" width="15%">
+                                    @obj.StudentName
+                                </td>
+                                <td style="max-width:15%" width="15%">
+                                    @obj.Email
+                                </td>
+                                <td width="10%">
+                                    @obj.StudentCollageId
+                                </td>
+                                @{
+                                    if (obj.Email != "admin@bishelpers.com")
+                                    {
+                                        if (@obj.ReportPaymentStat == 0)
+                                        {
+                                            <td style="background-color:crimson;color:#fff;" width="5%">
+                                                @obj.ReportPaymentStat
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="background-color:greenyellow;" width="5%">
+                                                @obj.ReportPaymentStat
+                                            </td>
+                                        }
+                                        if (@obj.WeeklyPaymentStat == 0)
+                                        {
+                                            <td style="background-color:crimson;color:#fff;" width="5%">
+                                                @obj.WeeklyPaymentStat
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="background-color:greenyellow;" width="5%">
+                                                @obj.WeeklyPaymentStat
+                                            </td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>Admin</td>
+                                        <td>Admin</td>
+                                    }
+                                    
+                                }
+                                <td width="5%">
+                                    @obj.Level
+                                </td>
+                                @{
+                                    if (obj.Email != "admin@bishelpers.com")
+                                    {
+                                        <td width="30%">
+
+                                            <div class="btn-group" role="group">
+                                                 @{
+                                                    if (obj.ReportPaymentStat == 0)
+                                                    {
+                                                        <a asp-controller="AdminPanel" asp-action="UserReportPayAction" asp-route-id="@Convert.ToString(obj.Id)" class="btn btn-warning mx-1 btn-sm">Edit Report Payment</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-controller="AdminPanel" asp-action="UserReportPayAction" asp-route-id="@Convert.ToString(obj.Id)" class="btn btn-danger mx-1 btn-sm">Edit Report Payment</a>
+
+                                                    }
+                                                    if (obj.WeeklyPaymentStat == 0)
+                                                    {
+                                                        <a asp-controller="AdminPanel" asp-action="UserWeeklyPayAction" asp-route-id="@Convert.ToString(obj.Id)" class="btn btn-warning mx-1 btn-sm">Edit Weekly Payment</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-controller="AdminPanel" asp-action="UserWeeklyPayAction" asp-route-id="@Convert.ToString(obj.Id)" class="btn btn-danger mx-1 btn-sm">Edit Weekly Payment</a>
+                                                    }
+                                                 }
+                                                <a asp-controller="AdminPanel" asp-action="UserRemoveAction" asp-route-id="@Convert.ToString(obj.Id)" class="btn btn-danger mx-1 btn-sm"><i class="bi bi-person-x-fill"></i> Remove</a>
+
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td width="30%">Admin</td>
+                                    }
+
+                                }
+                                
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+                  
+            </div>
+            <br />
+            <div>
+                <a class="btn btn-primary mx-2" href="@Url.Action("PrintUsersAsExcel","AdminPanel")">Export Users (Excel)</a>
+
+            </div>
+            <br />
+            <div>
+                <p style="padding: 8px;" class="badge bg-success">Count Of level 3 Students: <span style="color:yellow">@SortedStudents.Count(S => S.Level == 3)</span></p>
+                <p style="padding: 8px;" class="badge bg-success">Count Of level 2 Students: <span style="color:yellow">@SortedStudents.Count(S => S.Level == 2)</span></p>
+                <p style="padding: 8px;" class="badge bg-success">Count Of level 4 Students: <span style="color:yellow">@SortedStudents.Count(S => S.Level == 4)</span></p>
+                <p style="padding: 8px;" class="badge bg-success">Count Of Total Students: <span style="color:yellow">@SortedStudents.Count()</span></p>
+                <p style="padding: 8px;" class="badge bg-success">Count Of Students Who Have Access To Reports: <span style="color:yellow">@SortedStudents.Count(S => S.ReportPaymentStat == 1)</span></p>
+                <p style="padding: 8px;" class="badge bg-success">Count Of Students Who Have Access To Weekly Updates: <span style="color:yellow">@SortedStudents.Count(S => S.WeeklyPaymentStat == 1)</span></p>
+
+            </div>
+            <hr  id="GPAAnalysis"/>
+            <h1><i class="bi bi-clipboard-data"></i> GPA Analysis Report</h1>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+                    
+                    <thead>
+                        <tr>
+                            <th>
+                                Student ID
+                            </th>
+                            <th>
+                                Report ID
+                            </th>
+                            <th>
+                                Two Hours Subjects Num
+                            </th>
+                            <th>
+                                Three Hours Subjects Num
+                            </th>
+                            <th>
+                                HoursDone
+                            </th>
+                            <th>
+                                Current Total Gpa
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in SortedReports)
+                        {
+
+                            <tr>
+                                <td style="max-width:20%" width="20%">
+                                    @obj.StudentId
+                                </td>
+                                <td width="20%">
+                                    @obj.ReportId
+                                </td>
+                                <td width="10%">
+                                    @obj.TwoHoursSubjectsNum
+                                </td>
+                                <td width="10%">
+                                    @obj.ThreeHoursSubjectsNum
+                                </td>
+                                <td width="10%">
+                                    @obj.HoursDone
+                                </td>
+                                <td width="10%">
+                                    @obj.CurrentTotalGpa
+                                </td>
+
+                                <td width="300%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="ReportRemoveAction" asp-route-id="@obj.ReportId" class="btn btn-danger"><i class="bi bi-file-earmark-x"></i> Remove</a>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+                  
+            </div>
+            <br />
+            <div>
+                <a class="btn btn-primary mx-2" href="@Url.Action("PrintReportsAsExcel","AdminPanel")">Export Reports (Excel)</a>
+            </div>
+            <br />
+            <div>
+                <p style="padding: 8px;" class="badge bg-success">Count Of Reports: <span style="color:yellow">@SortedReports.Count()</span></p>
+            </div>
+            <hr  id="WeeklyUpdates"/>
+            <h1><i class="bi bi-calendar-date"></i> Weekly Updates</h1>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Week
+                            </th>
+                            <th>
+                                Subject
+                            </th>
+                            <th>
+                                Prof
+                            </th>
+                            <th>
+                                Progress
+                            </th>
+                            <th>
+                                Assignments
+                            </th>
+                            <th>
+                                Note
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in SortedWeeklyUpdates)
+                        {
+
+                            <tr>
+                                <td style="max-width:5%; min-width:5%">
+                                    @obj.WeeklyUpdatesId
+                                </td>
+                                <td style="max-width:5%; min-width:5%">
+                                    @obj.WeekNumber
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    @obj.ProfName
+                                </td>
+                                <td width="20%">
+                                    @obj.ProfProgress
+                                </td>
+                                <td width="20%">
+                                    @obj.ProfAssignments
+                                </td>
+                                <td width="20%">
+                                    @obj.Note
+                                </td>
+
+                                <td width="10%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="WeeklyUpdatesRemoveAction" asp-route-id="@obj.WeeklyUpdatesId" class="btn btn-danger"><i class="bi bi-calendar-x"></i> Remove</a>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+            <br />
+            <div>
+
+                <a asp-controller="AdminPanel" asp-action="AddWeeklyUpdate" class="btn btn-primary mx-2">Add Weekly Update</a>
+            </div>
+            <hr id="StudentLibrary" />
+
+            @*SummryList*@
+            <h1><i class="bi bi-journals"></i> Student Library</h1>
+            <br />
+
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Summaries and Quizzes support Approved
+                    <span class="badge bg-success rounded-pill">@SQsupportApproved.Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Assignment Support Approved
+                    <span class="badge bg-success rounded-pill">@AssignmentSupportApproved.Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Assignment Support Rejected
+                    <span class="badge bg-danger rounded-pill">@AssignmentSupportRejected.Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Summaries and Quizzes support Rejected
+                    <span class="badge bg-danger rounded-pill">@SQsupportRejected.Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Summaries and Quizzes support Requests
+                    <span class="badge bg-primary rounded-pill">@SQsupportRequests.Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Count Of Assignment Support Requests
+                    <span class="badge bg-primary rounded-pill">@AssignmentSupportRequests.Count()</span>
+                </li>
+            </ul>
+            <br />
+            <hr />
+            @*Requests*@
+            <h4 class="text-primary">Requests</h4>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+
+                    <thead>
+                        <tr class="table-primary">
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Author Name
+                            </th>
+                            <th>
+                                Subject Name
+                            </th>
+                            <th>
+                                Prof Name
+                            </th>
+                            <th>
+                                Url Description
+                            </th>
+                            <th>
+                                Url Type
+                            </th>
+                            <th>
+                                Url Content
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in AssignmentSupportRequests)
+                        {
+
+                            <tr class="table-active">
+                                <td width="5%">
+                                    @obj.AssignmentSupportId-A
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    @obj.ProfName
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="AddAssignmentSupportAction" asp-route-id="@obj.AssignmentSupportId" class="btn btn-success mx-1"><i class="bi bi-plus-square"></i> Add</a>
+                                        <a asp-controller="AdminPanel" asp-action="RejectAssignmentSupportAction" asp-route-id="@obj.AssignmentSupportId" class="btn btn-danger mx-1"><i class="bi bi-x-square"></i> Reject</a>
+
+                                       
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                        @foreach (var obj in SQsupportRequests)
+                        {
+
+                            <tr class="table-info">
+                                <td width="5%">
+                                    @obj.SQsupportId-SQ
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    -
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+
+                                        <a asp-controller="AdminPanel" asp-action="AddSQsupportAction" asp-route-id="@obj.SQsupportId" class="btn btn-success mx-1"><i class="bi bi-plus-square"></i> Add</a>
+                                        <a asp-controller="AdminPanel" asp-action="RejectSQsupportAction" asp-route-id="@obj.SQsupportId" class="btn btn-danger mx-1"><i class="bi bi-x-square"></i> Reject</a>
+
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+
+            </div> 
+            <br />
+            <div>
+                <div class="btn-group" role="group">
+
+                    <a class="btn btn-primary mx-2" asp-controller="AdminPanel" asp-action="AddAssignmentSupportRequest">Add Assignment Support Request</a>
+                    <a class="btn btn-primary mx-2" asp-controller="AdminPanel" asp-action="AddSummariesAndQuizzesRequest">Add Summaries and Quizzes Request</a>
+                                       
+                </div>
+
+            </div>
+            <hr />
+            @*Approved*@
+            <h4 class="text-success">Approved</h4>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+
+                    <thead>
+                        <tr class="table-success">
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Author Name
+                            </th>
+                            <th>
+                                Subject Name
+                            </th>
+                            <th>
+                                Prof Name
+                            </th>
+                            <th>
+                                Url Description
+                            </th>
+                            <th>
+                                Url Type
+                            </th>
+                            <th>
+                                Url Content
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in AssignmentSupportApproved)
+                        {
+
+                            <tr class="table-active">
+                                <td width="5%">
+                                    @obj.AssignmentSupportId-A
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    @obj.ProfName
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="RejectAssignmentSupportAction" asp-route-id="@obj.AssignmentSupportId" class="btn btn-danger mx-1"><i class="bi bi-x-square"></i> Reject</a>
+
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                        @foreach (var obj in SQsupportApproved)
+                        {
+
+                            <tr class="table-info">
+                                <td width="5%">
+                                    @obj.SQsupportId-SQ
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    -
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="RejectSQsupportAction" asp-route-id="@obj.SQsupportId" class="btn btn-danger mx-1"><i class="bi bi-x-square"></i> Reject</a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <hr />
+            @*Rejected*@
+            <h4 class="text-danger">Rejected</h4>
+            <br />
+            <div style="max-height: 400px;overflow-y: scroll;" class="text-center">
+                <table class="table table-bordered table-striped" style="width:100%">
+
+                    <thead>
+                        <tr class="table-danger">
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Author Name
+                            </th>
+                            <th>
+                                Subject Name
+                            </th>
+                            <th>
+                                Prof Name
+                            </th>
+                            <th>
+                                Url Description
+                            </th>
+                            <th>
+                                Url Type
+                            </th>
+                            <th>
+                                Url Content
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in AssignmentSupportRejected)
+                        {
+
+                            <tr class="table-active">
+                                <td width="5%">
+                                    @obj.AssignmentSupportId-A
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    @obj.ProfName
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+                                        <a asp-controller="AdminPanel" asp-action="AddAssignmentSupportAction" asp-route-id="@obj.AssignmentSupportId" class="btn btn-success mx-1"><i class="bi bi-plus-square"></i> Add</a>
+                                        <a asp-controller="AdminPanel" asp-action="RemoveAssignmentSupportAction" asp-route-id="@obj.AssignmentSupportId" class="btn btn-danger mx-1"><i class="bi bi-folder-x"></i> Remove</a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                        @foreach (var obj in SQsupportRejected)
+                        {
+
+                            <tr class="table-info">
+                                <td width="5%">
+                                    @obj.SQsupportId-SQ
+                                </td>
+                                <td width="10%">
+                                    @obj.AuthorName
+                                </td>
+                                <td width="10%">
+                                    @obj.SubjectName
+                                </td>
+                                <td width="10%">
+                                    -
+                                </td>
+                                <td width="25%">
+                                    @obj.UrlDescription
+                                </td>
+                                <td width="5%">
+                                    @obj.UrlType
+                                </td>
+                                <td width="5%">
+                                    <a class="nav-link" href="@obj.UrlContent">URL</a>
+                                </td>
+                                <td width="5%">
+                                    @obj.PublishedDate
+                                </td>
+                                <td width="15%">
+
+                                    <div class="btn-group" role="group">
+
+
+                                        <a asp-controller="AdminPanel" asp-action="AddSQsupportAction" asp-route-id="@obj.SQsupportId" class="btn btn-success mx-1"><i class="bi bi-plus-square"></i> Add</a>
+                                        <a asp-controller="AdminPanel" asp-action="RemoveSQsupportAction" asp-route-id="@obj.SQsupportId" class="btn btn-danger mx-1"><i class="bi bi-folder-x"></i> Remove</a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <hr />
+
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="text-center p-3">
+            <p>&copy;2022 BIS helpers.All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,165 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using BisHelpersWebApp.Areas.Identity.Data
+
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="UnOfficial website of BIS-HU. To provide help in the learning process, improve it and to
+                            make it easier for you.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <title>BIS Helpers</title>
+    <link rel="stylesheet" href="~/css/Main.css" asp-append-version="true" >
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+
+
+</head>
+
+<body>
+    <main>
+        <div class="big-wrapper light" style="padding: 1.7rem 0 2rem;">
+            <img src="../img/shape.png" asp-append-version="true" alt="" class="shape" />
+
+            <header>
+
+                <div class="container">
+                    <div class="logo">
+                        <a asp-controller="LandingPage" asp-action="Index">
+                            <img src="~/img/BIS_helpers-mdwr.png" asp-append-version="true" alt=" Logo" />
+                        </a>
+                        <h3> <a asp-controller="LandingPage" asp-action="Index"> BIS <span class="helpers"> helpers</span></a></h3>
+                    </div>
+
+                    <div class="links">
+                        <ul>
+                            <li><a asp-controller="LandingPage" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="WhatsBIS">What's BIS HU</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="AboutUs">About Us</a></li>
+                            <li><a asp-controller="LandingPage" asp-action="ContactUs">Contact Us</a></li>
+                            @{
+                                if (SignInManager.IsSignedIn(User))
+                                {
+                                    <form>
+                                    <li><a asp-controller="Portal" asp-action="Index" class="btn" target="_blank">Hello @UserManager.GetUserAsync(User).Result.StudentName!</a></li>
+                                    </form>
+                                    //<button type="submit">Logout</button>
+                                }
+                                else
+                                {
+                                    <li><a asp-area="Identity" asp-page="/Account/Signin" class="btn" target="_blank">Sign In</a></li>
+                                }
+
+                            }
+                            
+                        </ul>
+                    </div>
+
+                    <div class="overlay"></div>
+
+                    <div class="hamburger-menu">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="showcase-area">
+                <div class="container">
+                    <div class="left">
+                        <div class="big-title">
+                            <h1>BIS Helpers,</h1>
+                            <div class="typewriter">
+                                <h1>With You Every Time.</h1>
+                            </div>
+                            
+                        </div>
+                        <p class="text">
+                            Unofficial website of BIS-HU.<br />To provide help in the learning process, improve it and to
+                            make it easier for you .
+                        </p>
+                        <div class="cta">
+                            <a asp-controller="LandingPage" asp-action="AboutUs" class="btn">More About Us </a>
+                        </div>
+                    </div>
+
+                    <div class="right">
+                        <div>
+                            <img src="~/img/My project.png" asp-append-version="true" alt="Person Image" class="Phone" />
+                            <img src="~/img/My project (1).png" asp-append-version="true" alt="Person Image" class="web" />
+
+                        </div>
+                        <div class="SignUpBuuton">
+                            <a asp-area="Identity" asp-page="/Account/Signup" target="_blank"><span class="DanceIcon"><i class="fa-solid fa-angles-up"></i></span> Sign Up To Enjoy Our Featuers!</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="section_one">
+        <div class="container">
+            <div class="image">
+                <img src="../img/bis-home_one.jpg" asp-append-version="true" alt="">
+            </div>
+            <div class="text">
+                <h2>What Is BIS-HU ?</h2>
+                <p>It stands for Business Information Systems, which is a mix between business or commerce in all its fields and Information Systems... </p>
+                <a asp-controller="LandingPage" asp-action="WhatsBIS">Read More</a>
+            </div>
+        </div>
+    </div>
+    <div class="section_one clr">
+        <div class="container">
+            <div class="text">
+                <h2>Join Our Portal</h2>
+                <p>Our Portal have several different services to help students of BIS-HU in their learning journey and career.</p>
+                <a asp-area="Identity" asp-page="/Account/Signup" target="_blank">Sign Up</a>
+            </div>
+            <div class="image">
+                <img src="../img/portal-2.png" asp-append-version="true" alt="">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">
+            <h4>Bis <span> helpers</span></h4>
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><a asp-controller="LandingPage" asp-action="Index">Home</a></li>
+                <li><a asp-controller="LandingPage" asp-action="WhatsBIS">What's BIS HU</a></li>
+                <li><a asp-controller="LandingPage" asp-action="AboutUs">About Us</a></li>
+                <li><a asp-controller="LandingPage" asp-action="ContactUs">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-down">
+            <div class="copy-right">
+                &copy;2022 BIS helpers.All rights reserved.
+            </div>
+            <div class="icons">
+                <a href="https://www.instagram.com/bis_helpers/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:helpersbis@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p>Developed By BIS Helpers Team</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files&lt;3 -->
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <script src="~/js/app.js"></script>
+</body>
+
+</html>
